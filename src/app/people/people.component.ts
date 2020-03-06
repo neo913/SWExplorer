@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AppService } from '../app.service';
+import { Person } from '../model';
+import * as Repository from '../repository';
 
 @Component({
   selector: 'app-people',
@@ -8,18 +9,83 @@ import { AppService } from '../app.service';
   styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent implements OnInit {
+  
+  curPerson: Person;
+  curIndex: number = 0;
 
-  constructor(private http: HttpClient, private appService: AppService) { }
+  constructor(private appService: AppService) { }
 
   ngOnInit() {
-    this.http.get('https://swapi.co/api/people').subscribe(data =>{
-      console.log(data);
-    });
-    this.appService.getAPI().subscribe(data => {
-      console.log(data);
-    });
-
+    if(Repository.peopleIndex) { this.curIndex = Repository.peopleIndex; }
+    if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
+    this.getPerson();
   }
 
+  getPerson() {
+    if(Repository.peopleData && Repository.peopleData.length > 0) {
+      let target = Repository.dataFinder("people", null, this.curIndex + 1);
+      if(target) {
+        this.curPerson = target;
+      }
+    }
+    if(!this.curPerson || this.curPerson.getter('_id') != this.curIndex + 1) {
+      this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
+        if(person) {
+          this.curPerson = Repository.parseJSON(person, "people");
+          this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
+            if(planet) {
+              this.curPerson.setter('homeworld', planet["name"]);
+            }
+          });
+          let filmsList = new Array<string>();
+          this.curPerson.getter('films').map(film => {
+            this.appService.getAPIwithExactPath(film).subscribe(filmData => {
+              if(filmData) {
+                filmsList.push(filmData["title"]);
+              }
+            })
+          });
+          this.curPerson.setter('films', filmsList)
+          Repository.peopleDataAdder(this.curPerson);
+        }
+      });
+    }
+    Repository.valueSetter("peopleIndex", this.curIndex);
+  }
+
+  getTotalPeopleCount() {
+    this.appService.getAPI("people").subscribe(data => {
+      if(data && data["count"]) {
+        Repository.valueSetter("peopleTotal", data["count"]);
+      }
+    });
+  }
+
+  callNextPerson() {
+    if(this.curIndex == Repository.peopleTotal - 1) {
+      this.curIndex = 0;
+    } else {
+      this.curIndex += 1;
+    }
+    this.getPerson();
+  }
+  
+  callPrevPerson() {
+    if(this.curIndex == 0) {
+      this.curIndex = Repository.peopleTotal - 1;
+    } else {
+      this.curIndex -= 1;
+    }
+    this.getPerson();
+  }
+
+  genderChecker() {
+    switch(this.curPerson.getter('gender')) {
+      case "male": return "A Man";
+      case "feamle": return "An Woman";
+      case "unknown": return "An Unknown";
+      default: return "Someone";
+    }
+  }
 
 }

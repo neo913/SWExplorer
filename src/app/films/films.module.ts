@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import {MaterialModule} from '../material.module';
+
 import { FilmsRoutingModule } from './films-routing.module';
 import { FilmsComponent } from './films.component';
 
@@ -9,7 +11,8 @@ import { FilmsComponent } from './films.component';
   declarations: [FilmsComponent],
   imports: [
     CommonModule,
-    FilmsRoutingModule
+    FilmsRoutingModule,
+    MaterialModule
   ]
 })
 export class FilmsModule { }

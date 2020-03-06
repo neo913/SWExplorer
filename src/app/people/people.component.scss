@@ -1,0 +1,49 @@
+.people {
+  mat-card-header {
+    img {
+      max-width: 40px;
+      max-height: 40px;
+      border-radius: 50px;
+    }
+  }
+  .carousel {
+    .main-image {
+      display: flex;
+      max-width: 400px;
+      margin: auto;
+    }
+    button {
+      padding: 1rem;
+      font-size: 2rem;
+      opacity: 0.7;
+      background-color: transparent;
+      border-color: transparent;
+      color: black;
+      position: absolute;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      top: 40%;
+      border-radius: 50px;
+      &.left { left: 1rem; }
+      &.right { right: 1rem; }
+      &:hover {
+        opacity: 1;
+      }
+      mat-icon { opacity: 1; }
+    }
+    img {
+      width:100%;
+      max-width: 400px;
+      max-height: 550px;
+      overflow: hidden;
+    }
+  }
+}
+
+mat-card-content {
+  margin-top: 1rem;
+}
+mat-card-actions {
+  text-align: right;
+}
