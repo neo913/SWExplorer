@@ -7,7 +7,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("interceptor: " + request.url);
     request = request.clone({
       withCredentials: false
     });
