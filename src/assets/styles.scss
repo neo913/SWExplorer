@@ -1,0 +1,40 @@
+@import './variables';
+
+html, body { 
+  height: 100%; 
+  background-color: black; 
+  background-image: url(./background.png);
+}
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  color: $yellow; 
+  font-size: 12px; 
+}
+
+span.flex { flex: 1 1 auto; } // fill the space
+
+.mat-yellow {
+  background-color: transparent;
+  color: $yellow;
+}
+
+div.container {
+  padding: 2rem;
+  width: 50%;
+  margin: auto;
+}
+
+.text-right {
+  text-align: right;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+  div.container {
+    width: calc(100% - 4rem);
+  }
+}

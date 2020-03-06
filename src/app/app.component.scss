@@ -1,0 +1,30 @@
+@import '../assets//variables.scss';
+
+#main {
+  img {
+    width: 40%;
+    margin: 10% auto 10% 30%;
+  }
+ }
+ .btn-area {
+   margin-top: -4rem;
+   text-align: center;
+   button {
+     margin-left: 1rem;
+     margin-right: 1rem;
+     font-size: 2rem;
+     padding: 0.4rem 1rem;
+     border: 2px solid $yellow !important;
+   }
+ }
+ .mobile-view { display: none !important; }
+ 
+ @media screen and (max-width: 650px) {
+   .btn-area { display: none !important; }
+   .mobile-view { display: block !important; }
+   .mat-menu-panel, .mat-menu-item {
+     color: $yellow;
+     background-color: black !important;
+   }
+  
+ }

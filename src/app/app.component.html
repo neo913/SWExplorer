@@ -1,10 +1,23 @@
-<h1>
-  {{title}}
-</h1>
+<div id="main">
+  <img src="../assets/Star-wars-logo1.png" alt="logo" />
+</div>
+<div class="btn-area normal-view">
+  <button mat-stroked-button color="yellow" routerLink="/people">People</button>
+  <button mat-stroked-button color="yellow" routerLink="/planets">Planets</button>
+  <button mat-stroked-button color="yellow" routerLink="/films">films</button>
+  <span class="flex"></span>
+</div>
+<div class="mobile-view">
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>list</mat-icon>
+  </button>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item color="yellow" routerLink="/people">People</button>
+    <button mat-menu-item color="yellow" routerLink="/planets">Planets</button>
+    <button mat-menu-item color="yellow" routerLink="/films">films</button>
+  </mat-menu>  
+</div>
 
-<button routerLink="/people">People</button>
-<button routerLink="/planets">Planets</button>
-<button routerLink="/films">Films</button>
-<button routerLink="">Home</button>
+
 
 <router-outlet></router-outlet>
