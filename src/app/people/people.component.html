@@ -11,7 +11,7 @@
     </mat-card-header>
     <div class="carousel">
       <button class="left" (click)="callPrevPerson()"><mat-icon>keyboard_arrow_left</mat-icon></button>
-      <img mat-card-image src="{{'assets/characters/'+ curPerson.getter('_id') +'.jpg'}}" alt="Photo">
+      <img class="main-image" mat-card-image  src="{{'assets/characters/'+ curPerson.getter('_id') +'.jpg'}}" alt="Photo">
       <button class="right" (click)="callNextPerson()"><mat-icon>keyboard_arrow_right</mat-icon></button>
     </div>
     <mat-card-content>
