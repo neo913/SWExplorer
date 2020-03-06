@@ -29,9 +29,23 @@ export class PeopleComponent implements OnInit {
       }
     }
     if(!this.curPerson || this.curPerson.getter('_id') != this.curIndex + 1) {
-      this.appService.getAPI("people", this.curIndex + 1).subscribe(data => {
-        if(data) {
-          this.curPerson = Repository.parseJSON(data, "people");
+      this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
+        if(person) {
+          this.curPerson = Repository.parseJSON(person, "people");
+          this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
+            if(planet) {
+              this.curPerson.setter('homeworld', planet["name"]);
+            }
+          });
+          let filmsList = new Array<string>();
+          this.curPerson.getter('films').map(film => {
+            this.appService.getAPIwithExactPath(film).subscribe(filmData => {
+              if(filmData) {
+                filmsList.push(filmData["title"]);
+              }
+            })
+          });
+          this.curPerson.setter('films', filmsList)
           Repository.peopleDataAdder(this.curPerson);
         }
       });
