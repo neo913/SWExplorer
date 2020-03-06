@@ -1,1 +1,53 @@
-<p>planets works!</p>
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let planet of planetFilter(searchStr)" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{planet.getter("_id")}}{{planet.getter('name')}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{spellChecker(planet.getter('climate'))}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-grid-list cols="2" rowHeight="10:1">
+        <mat-grid-tile>Name</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('name')}}</mat-grid-tile>
+        <mat-grid-tile>Rotation Period</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('rotation_period')}}</mat-grid-tile>
+        <mat-grid-tile>Orbital Period</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('orbital_period')}}</mat-grid-tile>
+        <mat-grid-tile>Diameter</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('diameter')}}</mat-grid-tile>
+        <mat-grid-tile>Climate</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('climate')}}</mat-grid-tile>
+        <mat-grid-tile>Gravity</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('gravity')}}</mat-grid-tile>
+        <mat-grid-tile>Terrain</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('terrain')}}</mat-grid-tile>
+        <mat-grid-tile>Surface water</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('surface_water')}}</mat-grid-tile>
+        <mat-grid-tile>Population</mat-grid-tile>
+        <mat-grid-tile>{{planet.getter('population')}}</mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="2" rowHeight="10:1">
+        <ng-container *ngFor="let resident of planet.getter('residents'); let first = first; let last = last;">
+          <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
+          <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
+        </ng-container>
+      </mat-grid-list>
+      <mat-grid-list cols="2" rowHeight="10:1">
+        <ng-container *ngFor="let movie of planet.getter('films'); let first = first; let last = last;">
+          <mat-grid-tile><span *ngIf="first">Movies</span></mat-grid-tile>
+          <mat-grid-tile><span>{{last? movie: movie + ', '}}</span></mat-grid-tile>
+        </ng-container>
+      </mat-grid-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+  <div class="search text-right">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <!-- <input matInput placeholder="Search" [(ngModel)]="searchStr"> -->
+    </mat-form-field>
+  </div>
+</div>
