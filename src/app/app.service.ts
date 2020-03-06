@@ -10,7 +10,9 @@ export class AppService {
 
   constructor(private http: HttpClient) { }
 
-  getAPI() {
-    return this.http.get(this.API_URL+'people/1/');
+  getAPI(type:string, id?: number) {
+    let path = this.API_URL + type + "/";
+    id ? path += id + "/" : null;
+    return this.http.get(path);
   }
 }

@@ -1,1 +1,50 @@
-<p>people works!</p>
+<div class="container">
+  <mat-card class="people" *ngIf="curPerson">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img src="{{'assets/characters/'+number+'.jpg'}}" alt="Avatar">
+      </div>
+      <mat-card-title>{{curPerson.getter('name')}}</mat-card-title>
+      <mat-card-subtitle>
+        <span>{{genderChecker()}} from {{curPerson.getter('homeworld')}}.</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <div class="carousel">
+      <button class="left" (click)="callPrevPerson()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+      <img mat-card-image src="{{'assets/characters/'+number+'.jpg'}}" alt="Photo">
+      <button class="right" (click)="callNextPerson()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+    </div>
+    <mat-card-content>
+      <mat-grid-list cols="2" rowHeight="10:1">
+        <mat-grid-tile>Name</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('name')}}</mat-grid-tile>
+        <mat-grid-tile>Height</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('height')}}</mat-grid-tile>
+        <mat-grid-tile>Weight</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('mass')}}</mat-grid-tile>
+        <mat-grid-tile>Hair Color</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('hair_color')}}</mat-grid-tile>
+        <mat-grid-tile>Skin Color</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('skin_color')}}</mat-grid-tile>
+        <mat-grid-tile>Eye Color</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('eye_color')}}</mat-grid-tile>
+        <mat-grid-tile>Birth Year</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('birth_year')}}</mat-grid-tile>
+        <mat-grid-tile>Gender</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('gender')}}</mat-grid-tile>
+        <mat-grid-tile>Home World</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('homeworld')}}</mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="2" rowHeight="10:1">
+        <ng-container *ngFor="let movie of curPerson.getter('films'); let first = first; let last = last;">
+          <mat-grid-tile><span *ngIf="first">Movies</span></mat-grid-tile>
+          <mat-grid-tile><span>{{last? movie: movie + ', '}}</span></mat-grid-tile>
+        </ng-container>
+      </mat-grid-list>
+    </mat-card-content>
+    
+    <mat-card-actions>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
