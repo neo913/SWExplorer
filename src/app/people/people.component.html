@@ -2,7 +2,7 @@
   <mat-card class="people" *ngIf="curPerson">
     <mat-card-header>
       <div mat-card-avatar>
-        <img src="{{'assets/characters/'+number+'.jpg'}}" alt="Avatar">
+        <img src="{{'assets/characters/' + curPerson.getter('_id') + '.jpg'}}" alt="Avatar">
       </div>
       <mat-card-title>{{curPerson.getter('name')}}</mat-card-title>
       <mat-card-subtitle>
@@ -11,7 +11,7 @@
     </mat-card-header>
     <div class="carousel">
       <button class="left" (click)="callPrevPerson()"><mat-icon>keyboard_arrow_left</mat-icon></button>
-      <img mat-card-image src="{{'assets/characters/'+number+'.jpg'}}" alt="Photo">
+      <img mat-card-image src="{{'assets/characters/'+ curPerson.getter('_id') +'.jpg'}}" alt="Photo">
       <button class="right" (click)="callNextPerson()"><mat-icon>keyboard_arrow_right</mat-icon></button>
     </div>
     <mat-card-content>
