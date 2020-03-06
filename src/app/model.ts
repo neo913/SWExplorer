@@ -82,7 +82,7 @@ export class Planet extends _Base {
   }
 }
 
-export class Movie extends _Base {
+export class Film extends _Base {
   private _id:              number;
   private title:            string;
   private episode_id:       string;
@@ -99,7 +99,7 @@ export class Movie extends _Base {
   private edited:           string;
   private url:              string;
 
-  constructor(object?: Movie) {
+  constructor(object?: Film) {
     super();
     this._id            = object && object._id              || null;
     this.title          = object && object.title            || '';

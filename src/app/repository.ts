@@ -1,4 +1,4 @@
-import { Person, Planet, film } from "./model";
+import { Person, Planet, Film } from "./model";
 
 export let peopleData:  Person[];
 export let peopleIndex: number;
@@ -8,7 +8,7 @@ export let planetsData:  Planet[];
 export let planetsIndex: number;
 export let planetsTotal: number
 
-export let filmsData:  film[];
+export let filmsData:  Film[];
 export let filmsIndex: number;
 export let filmsTotal: number;
 
@@ -55,7 +55,7 @@ export function planetsDataAdder(data: Object) {
 }
 
 export function filmsDataAdder(data: Object) {
-  if(!filmsData) { filmsData = new Array<film>(); }
+  if(!filmsData) { filmsData = new Array<Film>(); }
   if(!dataFinder("films", data["url"])) {
      filmsData.push(parseJSON(data, "films"));
   };
@@ -76,7 +76,7 @@ export function parseJSON(data: Object, type: string) {
   switch(type) {
     case "people":  obj = new Person(); break;
     case "planets": obj = new Planet(); break;
-    case "films":  obj = new film(); break;
+    case "films":  obj = new Film(); break;
     default: break;
   }
   for(let key of keys) {
