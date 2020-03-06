@@ -1,9 +1,10 @@
 <div class="container">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let planet of planetFilter(searchStr)" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <!-- <mat-expansion-panel *ngFor="let planet of planetFilter(searchStr)" (opened)="panelOpenState = true" (closed)="panelOpenState = false"> -->
+    <mat-expansion-panel *ngFor="let planet of curPlanets" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{planet.getter("_id")}}{{planet.getter('name')}}
+          {{planet.getter('name')}}
         </mat-panel-title>
         <mat-panel-description>
           {{spellChecker(planet.getter('climate'))}}
@@ -44,10 +45,13 @@
     </mat-expansion-panel>
   </mat-accordion>
   
-  <div class="search text-right">
+  <div class="search">
     <mat-form-field>
       <mat-label>Search</mat-label>
-      <!-- <input matInput placeholder="Search" [(ngModel)]="searchStr"> -->
+      <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr">
     </mat-form-field>
+    <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
+    </mat-paginator>
+    <span class="flex"></span>
   </div>
 </div>
