@@ -17,6 +17,7 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     if(Repository.peopleIndex) { this.curIndex = Repository.peopleIndex; }
+    if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
     this.getPerson();
   }
 
@@ -47,9 +48,8 @@ export class PeopleComponent implements OnInit {
   }
 
   callNextPerson() {
-    if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
-    if(this.curIndex + 1 == Repository.peopleTotal) {
-      this.curIndex = 1;
+    if(this.curIndex == Repository.peopleTotal - 1) {
+      this.curIndex = 0;
     } else {
       this.curIndex += 1;
     }
@@ -57,9 +57,8 @@ export class PeopleComponent implements OnInit {
   }
   
   callPrevPerson() {
-    if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
     if(this.curIndex == 0) {
-      this.curIndex = Repository.peopleTotal;
+      this.curIndex = Repository.peopleTotal - 1;
     } else {
       this.curIndex -= 1;
     }
