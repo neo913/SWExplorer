@@ -53,6 +53,11 @@ export class PlanetsComponent implements OnInit {
           this.curPlanets = Repository.planetsData;
         }
       });
+    } else {
+      this.curPlanets = new Array<Planet>();
+      Repository.planetsData.map(data => {
+        this.curPlanets.push(data);
+      })
     }
   }
 

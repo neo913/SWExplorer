@@ -12,14 +12,18 @@ export let filmsData:  Film[];
 export let filmsIndex: number;
 export let filmsTotal: number;
 
-export function dataFinder(type: string, url?: string, _id?: number) {
+export function dataFinder(type?: string, url?: string, _id?: number) {
   let target: any[];
+  if(!type && url) {
+    type = typeFinder(url);
+  }
   switch(type) {
     case "people": target = peopleData; break;
     case "planets": target = planetsData; break;
     case "films": target = filmsData; break;
     default: return;
   }
+
   let result;
   try {
     if(!target) { return null; }
@@ -29,6 +33,13 @@ export function dataFinder(type: string, url?: string, _id?: number) {
     return null;
   }
   return result
+}
+
+export function typeFinder(url: string) {
+  if      (url.search("people"))  { return "people"; }
+  else if (url.search("planets")) { return "planets"; }
+  else if (url.search("films"))   { return "films"; }
+  else { return null; }
 }
 
 export function dataGetter(type: string) {
