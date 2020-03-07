@@ -12,6 +12,12 @@ export let filmsData:  Film[];
 export let filmsIndex: number;
 export let filmsTotal: number;
 
+export function test() {
+  console.log(peopleData);
+  console.log(planetsData);
+  console.log(filmsData);
+}
+
 export function dataFinder(type?: string, url?: string, _id?: number) {
   let target: any[];
   if(!type && url) { type = typeFinder(url); }
@@ -111,5 +117,18 @@ export function valueSetter(key: string, value: number) {
     case "filmsIndex":   filmsIndex = value;  break;
     case "filmsTotal":   filmsTotal = value;  break;
     default: break;
+  }
+}
+
+export function dataSort(type: string) {
+  let target;
+  switch(type) {
+    case "people":  target = peopleData  ; break; 
+    case "planets": target = planetsData ; break; 
+    case "films":   target = filmsData   ; break; 
+    default:        break;
+  }
+  if(target && target.length > 0) {
+    target.sort((a, b) =>    { return a.getter('_id') - b.getter('_id'); });;
   }
 }

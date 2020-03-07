@@ -21,7 +21,8 @@ export class FilmsComponent implements OnInit {
 
   getAllFilms() {
     this.allFilms = new Array<Film>();
-    if(Repository.filmsData && Repository.filmsData.length > 0) {
+    if(Repository.filmsData && Repository.filmsData.length >= 6) {
+      Repository.dataSort("films");
       this.allFilms = Repository.filmsData;
     } else {
       this.appService.getAPI("films").subscribe(data => {
@@ -41,6 +42,7 @@ export class FilmsComponent implements OnInit {
               result["characters"].map(character => {
                 this.appService.getAPIwithExactPath(character).subscribe(charData => {
                   charactersList.push(charData["name"]);
+                  Repository.peopleDataAdder(charData);
                 });
               });
               result["charactersList"] = charactersList;
@@ -59,6 +61,7 @@ export class FilmsComponent implements OnInit {
               result["planets"].map(planet => {
                 this.appService.getAPIwithExactPath(planet).subscribe(planetData => {
                   planetsList.push(planetData["name"]);
+                  Repository.planetsDataAdder(planetData);
                 });
               });
             }
@@ -67,10 +70,7 @@ export class FilmsComponent implements OnInit {
             Repository.filmsDataAdder(result);
           });
 
-          // sort by _id
-          Repository.filmsData.sort((a, b) => {
-            return a.getter('_id') - b.getter('_id');
-          });
+          Repository.dataSort("films");
           Repository.filmsData.map(film => {
             this.allFilms.push(film);
           });

@@ -23,6 +23,7 @@ export class PeopleComponent implements OnInit {
 
   getPerson() {
     if(Repository.peopleData && Repository.peopleData.length > 0) {
+      Repository.dataSort("people");
       let target = Repository.dataFinder("people", null, this.curIndex + 1);
       if(target) {
         this.curPerson = target;
@@ -39,6 +40,7 @@ export class PeopleComponent implements OnInit {
             this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
               if(planet) {
                 this.curPerson.setter('homeworldName', planet["name"]);
+                Repository.planetsDataAdder(planet);
               }
             });
           }
@@ -46,8 +48,9 @@ export class PeopleComponent implements OnInit {
           let filmsList = new Array<string>();
           if(Repository.filmsData && Repository.filmsData.length > 0) {
             person["films"].map(filmUrl => {
-              // if(Repository.dataFinder("films", filmUrl)) { }  // Unnecessary 
-              filmsList.push(Repository.dataFinder("films", filmUrl).getter('title'));
+              if(Repository.dataFinder("films", filmUrl)) {
+                filmsList.push(Repository.dataFinder("films", filmUrl).getter('title'));
+              }
             });
           }
           if(person["films"].length !== filmsList.length) {
@@ -56,6 +59,7 @@ export class PeopleComponent implements OnInit {
               this.appService.getAPIwithExactPath(film).subscribe(filmData => {
                 if(filmData) {
                   filmsList.push(filmData["title"]);
+                  Repository.filmsDataAdder(filmData);
                 }
               })
             });
@@ -67,6 +71,7 @@ export class PeopleComponent implements OnInit {
       });
     }
     Repository.valueSetter("peopleIndex", this.curIndex);
+    Repository.dataSort("people");
   }
 
   getTotalPeopleCount() {

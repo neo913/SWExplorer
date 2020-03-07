@@ -27,7 +27,7 @@ export class PlanetsComponent implements OnInit {
  */
   getInitPlanets() {
     this.curPlanets = new Array<Planet>();
-    if(!Repository.planetsData || Repository.planetsData.length == 0) {
+    if(!Repository.planetsData || Repository.planetsData.length < 10) {
       this.appService.getAPI("planets").subscribe(planetsData => {
         if(planetsData) {
           Repository.valueSetter("planetsTotal", planetsData["count"]);
@@ -48,6 +48,7 @@ export class PlanetsComponent implements OnInit {
               planet["residents"].map(resident => {
                 this.appService.getAPIwithExactPath(resident).subscribe(residentData => {
                   residentsList.push(residentData["name"]);
+                  Repository.peopleDataAdder(residentData);
                 });
               });
             }
@@ -66,16 +67,19 @@ export class PlanetsComponent implements OnInit {
               planet["films"].map(film => {
                 this.appService.getAPIwithExactPath(film).subscribe(filmData => {
                   filmsList.push(filmData["title"]);
+                  Repository.filmsDataAdder(filmData);
                 });
               });
             }
             planet["filmsList"] = filmsList;
             Repository.planetsDataAdder(planet);
           });
+          Repository.dataSort("planets");
           this.curPlanets = Repository.planetsData;
         }
       });
     } else {
+      Repository.dataSort("planets");
       this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= 0 && i < 10 });
     }
   }
@@ -110,6 +114,7 @@ export class PlanetsComponent implements OnInit {
                 planet["residents"].map(resident => {
                   this.appService.getAPIwithExactPath(resident).subscribe(residentData => {
                     residentsList.push(residentData["name"]);
+                    Repository.peopleDataAdder(residentData);
                   });
                 });
               }
@@ -128,6 +133,7 @@ export class PlanetsComponent implements OnInit {
                 planet["films"].map(film => {
                   this.appService.getAPIwithExactPath(film).subscribe(filmData => {
                     filmsList.push(filmData["title"]);
+                    Repository.filmsDataAdder(filmData);
                   });
                 });
               }
