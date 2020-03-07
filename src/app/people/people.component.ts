@@ -22,10 +22,10 @@ export class PeopleComponent implements OnInit {
   }
 
   getPerson() {
-    if(Repository.peopleData && Repository.peopleData.length > 0) {
+    if(Repository.peopleData && Repository.peopleData.length > 0 ) {
       Repository.dataSort("people");
       let target = Repository.dataFinder("people", null, this.curIndex + 1);
-      if(target) {
+      if(target && Repository.dataTransformedChecker("people", target.getter('_id'))) {
         this.curPerson = target;
       }
     }
