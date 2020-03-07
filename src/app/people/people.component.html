@@ -36,9 +36,9 @@
         <mat-grid-tile>{{curPerson.getter('homeworld')}}</mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let movie of curPerson.getter('films'); let first = first; let last = last;">
-          <mat-grid-tile><span *ngIf="first">Movies</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? movie: movie + ', '}}</span></mat-grid-tile>
+        <ng-container *ngFor="let film of curPerson.getter('films'); let first = first; let last = last;">
+          <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
+          <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
         </ng-container>
       </mat-grid-list>
     </mat-card-content>
