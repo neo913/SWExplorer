@@ -40,16 +40,16 @@ export function dataFinder(type?: string, url?: string, _id?: number) {
 }
 
 export function typeFinder(url: string) {
-  if      (url.search("people"))  { return "people"; }
-  else if (url.search("planets")) { return "planets"; }
-  else if (url.search("films"))   { return "films"; }
+  if      (url.indexOf("people")  != -1) { return "people"; }
+  else if (url.indexOf("planets") != -1) { return "planets"; }
+  else if (url.indexOf("films")   != -1) { return "films"; }
   else { return null; }
 }
 
-export function dataTransformedChecker(type: any, id?: number) {
+export function dataTransformedChecker(data: any, id?: number) {
   let result = true;
   let target;
-  switch(type) {
+  switch(typeFinder(data['url'])) {
     case "people":      if(!id) {
                           target = peopleData  ;
                           target.map(item => {
@@ -97,14 +97,30 @@ export function dataGetter(type: string) {
   }
 }
 
-export function peopleDataAdder(data: Object ) {
+export function dataAdder(data: any) {
+  switch(typeFinder(data.getter('url'))) {
+    case 'people' : if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
+                    peopleData.push(data);
+                    break;
+    case 'planets': if(!planetsData || planetsData.length == 0) { console.log(1); planetsData = new Array<Planet>(); }
+                    planetsData.push(data);
+                    console.log(planetsData);
+                    break;
+    case 'films'  : if(!filmsData || filmsData.length == 0) { filmsData = new Array<Film>(); }
+                    filmsData.push(data);
+                    break;
+    default       : break;
+  }
+}
+
+export function peopleDataAdder(data: object ) {
   if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
   if(!dataFinder("people", data["url"])) {
     peopleData.push(parseJSON(data, "people"));
   }
 }
 
-export function planetsDataAdder(data: Object) {
+export function planetsDataAdder(data: object) {
   if(!planetsData || planetsData.length == 0) { planetsData = new Array<Planet>(); }
   if(!dataFinder("planets", data["url"])) {
     planetsData.push(parseJSON(data, "planets"));
@@ -118,6 +134,19 @@ export function filmsDataAdder(data: Object) {
   };
 }
 
+export function dataUpdater(url: string, key: string, value: any) {
+  let target;
+  switch(typeFinder(url)) {
+    case "people":  target = peopleData  ; break; 
+    case "planets": target = planetsData ; break; 
+    case "films":   target = filmsData   ; break; 
+    default:        break;
+  }
+  if(target) {
+    dataFinder(target, url).setter(key, value);
+  }
+}
+
 export function indexSetter(type: string, idx: number) {
   switch(type) {
     case "people":  peopleIndex = idx; break;
@@ -127,7 +156,7 @@ export function indexSetter(type: string, idx: number) {
   }
 }
 
-export function parseJSON(data: Object, type: string) {
+export function parseJSON(data: object, type: string) {
   let keys = Object.keys(data);
   let obj;
   switch(type) {

@@ -32,18 +32,27 @@ export class PeopleComponent implements OnInit {
     if(!this.curPerson || this.curPerson.getter('_id') != this.curIndex + 1) {
       this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
         if(person) {
-          this.curPerson = Repository.parseJSON(person, "people");
+
+          this.curPerson = new Person(Repository.parseJSON(person, "people"));
+
           // homeworld update // No API call when this finds object in Repository
+          let homeworldName;
           if(Repository.dataFinder("planets", person["homeworld"])) {
-            this.curPerson.setter('homeworldName', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
+            homeworldName = Repository.dataFinder("planets", person["homeworld"]).getter('name');
+            this.curPerson.setter('homeworldName', homeworldName);
+            // this.curPerson.setter('homeworldName', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
           } else {
             this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
               if(planet) {
                 this.curPerson.setter('homeworldName', planet["name"]);
                 Repository.planetsDataAdder(planet);
+                homeworldName = planet["name"];
               }
             });
           }
+          this.curPerson.setter('homeworldName', homeworldName);
+          // Repository.dataUpdater(person["url"], "homeworldName", homeworldName);
+
           // films update // No API call when this finds objects in Repository
           let filmsList = new Array<string>();
           if(Repository.filmsData && Repository.filmsData.length > 0) {
@@ -64,9 +73,13 @@ export class PeopleComponent implements OnInit {
               })
             });
           }
-
           this.curPerson.setter('filmsList', filmsList);
-          Repository.peopleDataAdder(this.curPerson);
+          
+          // Repository.peopleDataAdder(this.curPerson);
+
+          // Repository.dataUpdater(person["url"], "filmsList", filmsList);
+
+          Repository.dataAdder(this.curPerson);
         }
       });
     }
