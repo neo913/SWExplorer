@@ -100,37 +100,49 @@ export function dataGetter(type: string) {
 export function dataAdder(data: any) {
   switch(typeFinder(data.getter('url'))) {
     case 'people' : if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
+                    if(dataFinder("people", data.getter('url'))) {
+                      peopleData.splice(peopleData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
                     peopleData.push(data);
+                    dataSort("people");
                     break;
-    case 'planets': if(!planetsData || planetsData.length == 0) { console.log(1); planetsData = new Array<Planet>(); }
+    case 'planets': if(!planetsData || planetsData.length == 0) { planetsData = new Array<Planet>(); }
+                    if(dataFinder("planets", data.getter('url'))) {
+                      planetsData.splice(planetsData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
                     planetsData.push(data);
-                    console.log(planetsData);
+                    dataSort("planets");
                     break;
     case 'films'  : if(!filmsData || filmsData.length == 0) { filmsData = new Array<Film>(); }
+                    if(dataFinder("films", data.getter('url'))) {
+                      filmsData.splice(filmsData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
                     filmsData.push(data);
+                    dataSort("films");
                     break;
     default       : break;
   }
+  
 }
 
 export function peopleDataAdder(data: object ) {
   if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
   if(!dataFinder("people", data["url"])) {
-    peopleData.push(parseJSON(data, "people"));
+    peopleData.push(parseJSON(data));
   }
 }
 
 export function planetsDataAdder(data: object) {
   if(!planetsData || planetsData.length == 0) { planetsData = new Array<Planet>(); }
   if(!dataFinder("planets", data["url"])) {
-    planetsData.push(parseJSON(data, "planets"));
+    planetsData.push(parseJSON(data));
   }
 }
 
 export function filmsDataAdder(data: Object) {
   if(!filmsData) { filmsData = new Array<Film>(); }
   if(!dataFinder("films", data["url"])) {
-     filmsData.push(parseJSON(data, "films"));
+     filmsData.push(parseJSON(data));
   };
 }
 
@@ -156,9 +168,11 @@ export function indexSetter(type: string, idx: number) {
   }
 }
 
-export function parseJSON(data: object, type: string) {
+export function parseJSON(data: object) {
   let keys = Object.keys(data);
+  let type = typeFinder(data["url"]);
   let obj;
+
   switch(type) {
     case "people":  obj = new Person(); break;
     case "planets": obj = new Planet(); break;

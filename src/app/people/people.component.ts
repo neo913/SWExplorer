@@ -33,7 +33,7 @@ export class PeopleComponent implements OnInit {
       this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
         if(person) {
 
-          this.curPerson = new Person(Repository.parseJSON(person, "people"));
+          this.curPerson = new Person(Repository.parseJSON(person));
 
           // homeworld update // No API call when this finds object in Repository
           let homeworldName;
