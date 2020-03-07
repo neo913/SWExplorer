@@ -1,43 +1,44 @@
 <div class="container">
-  <mat-tab-group [selectedIndex]="number">
-    <mat-tab *ngFor="let movie of allMovies;" label="{{movie.getter('title')}}">
-      <mat-card class="movie-card">
+  <mat-tab-group [selectedIndex]="curIndex" color="accent">
+    <mat-tab *ngFor="let film of allFilms;" label="{{film.getter('_id')}}. {{film.getter('title')}}">
+      <mat-card class="film-card">
         <mat-card-header>
-          <div mat-card-avatar class="movie-header-image"></div>
-          <mat-card-title>{{movie.getter('title')}}</mat-card-title>
-          <mat-card-subtitle>Episode {{movie.getter('episode_id')}} ({{movie.getter('release_date')}})</mat-card-subtitle>
+          <div mat-card-avatar class="film-header-image">
+            <span class="avatar">{{film.getter('_id')}}</span>
+          </div>
+          <mat-card-title>{{film.getter('title')}}</mat-card-title>
+          <mat-card-subtitle>Episode {{film.getter('episode_id')}} ({{film.getter('release_date')}})</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image src="{{'assets/posters/'+ movie.getter('_id')+'.jpg'}}" alt="Poster">
+        <div class="image-container">
+          <img mat-card-image src="{{'assets/posters/'+ film.getter('_id')+'.jpg'}}" alt="Poster">
+        </div>
         <mat-card-content>
-          <pre>{{movie.getter('opening_crawl')}}</pre>
+          <pre>{{film.getter('opening_crawl')}}</pre>
 
           <mat-button-toggle-group #group="matButtonToggleGroup">
-              <mat-button-toggle value="director" aria-label="Director">Director</mat-button-toggle>
-              <mat-button-toggle value="producer" aria-label="Producer">Producer</mat-button-toggle>
-              <mat-button-toggle value="characters" (click)="getCharacters()" aria-label="Characters" matBadge="{{movie.getter('characters').length}}" matBadgeColor="primary">Characters</mat-button-toggle>
-              <mat-button-toggle value="planets" (click)="getPlanets()" aria-label="Planets" matBadge="{{movie.getter('planets').length}}" matBadgeColor="primary">Planets</mat-button-toggle>
+            <mat-button-toggle value="director" aria-label="Director">Director</mat-button-toggle>
+            <mat-button-toggle value="producer" aria-label="Producer">Producer</mat-button-toggle>
+            <mat-button-toggle value="characters" aria-label="Characters" matBadge="{{film.getter('characters').length}}" matBadgeColor="accent">Characters</mat-button-toggle>
+            <mat-button-toggle value="planets" aria-label="Planets" matBadge="{{film.getter('planets').length}}" matBadgeColor="accent">Planets</mat-button-toggle>
           </mat-button-toggle-group>
 
           <div class="additional">
             <div *ngIf="group.value == 'director'">
-              {{movie.getter('director')}}
+              {{film.getter('director')}}
             </div>
             <div *ngIf="group.value == 'producer'">
-              {{movie.getter('producer')}}
+              {{film.getter('producer')}}
             </div>
             <div *ngIf="group.value == 'characters'">
-              <!-- temp -->
-              {{movie.getter('characters')|json}}
+              <span *ngFor="let character of film.getter('characters'); let last = last">{{last? character: character + ', '}}</span>
             </div>
             <div *ngIf="group.value == 'planets'">
-              <!-- temp -->
-              {{movie.getter('planets')|json}}
+              <span *ngFor="let planet of film.getter('planets'); let last = last">{{last? planet: planet + ', '}}</span>
             </div>
           </div>
-
         </mat-card-content>
+
         <mat-card-actions>
-          <button mat-button>LIKE</button>
           <button mat-button>SHARE</button>
         </mat-card-actions>
       </mat-card>
