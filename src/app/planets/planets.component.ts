@@ -32,6 +32,22 @@ export class PlanetsComponent implements OnInit {
           this.total = Repository.planetsTotal;
           if(!Repository.planetsTotal) { Repository.valueSetter("planetsTotal", planetsData["count"]); }
           planetsData["results"].map(planet => {
+            // Residents update
+            let residentsList = new Array<string>();
+            planet["residents"].map(resident => {
+              this.appService.getAPIwithExactPath(resident).subscribe(residentData => {
+                residentsList.push(residentData["name"]);
+              });
+            });
+            planet["residents"] = residentsList;
+            // Films update
+            let filmsList = new Array<string>();
+            planet["films"].map(film => {
+              this.appService.getAPIwithExactPath(film).subscribe(filmData => {
+                filmsList.push(filmData["title"]);
+              });
+            });
+            planet["films"] = filmsList;
             Repository.planetsDataAdder(planet);
           });
           this.curPlanets = Repository.planetsData;
@@ -41,10 +57,10 @@ export class PlanetsComponent implements OnInit {
   }
 
   onPaginateChange(event) {
-   this.getMorePlanets(event.pageIndex);
+   this.getPlanets(event.pageIndex);
   }
 
-  getMorePlanets(pageIndex: number) {
+  getPlanets(pageIndex: number) {
     let first = (pageIndex + 1) * 10 -9;
     let last = (pageIndex + 1) * 10;
     if(last > Repository.planetsTotal) { last = Repository.planetsTotal; }
