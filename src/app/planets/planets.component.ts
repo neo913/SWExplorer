@@ -34,7 +34,7 @@ export class PlanetsComponent implements OnInit {
           this.total = Repository.planetsTotal;
           
           planetsData["results"].map(planet => {
-            let planetObj = this.planetUpdater(Repository.parseJSON(planet));
+            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
             Repository.dataAdder(planetObj);
           });
           Repository.dataSort("planets");
@@ -45,7 +45,7 @@ export class PlanetsComponent implements OnInit {
       Repository.dataSort("planets");
       this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= 0 && i < 10 });
       this.curPlanets.map(planet => {
-        planet = this.planetUpdater(planet);
+        planet = this.planetUpdator(planet);
       });
     }
   }
@@ -54,7 +54,7 @@ export class PlanetsComponent implements OnInit {
    this.getPlanets(event.pageIndex);
   }
 
-  planetUpdater(data: Planet) {
+  planetUpdator(data: Planet) {
       
     if(data.getter('residents').length !== data.getter('residentsList').length) {
       data.setter('residnetsList', new Array<string>());
@@ -131,7 +131,7 @@ export class PlanetsComponent implements OnInit {
           if(planetsData) {
             
             planetsData["results"].map(planet => {
-              let planetObj = this.planetUpdater(Repository.parseJSON(planet));
+              let planetObj = this.planetUpdator(Repository.parseJSON(planet));
               Repository.dataAdder(planetObj);
             });
             this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= first && i <= last });
@@ -163,7 +163,7 @@ export class PlanetsComponent implements OnInit {
         this.curPlanets = new Array<Planet>();
         if(data["results"]) {
           data["results"].map(planet => {
-            let planetObj = this.planetUpdater(Repository.parseJSON(planet));
+            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
             this.curPlanets.push(planetObj);
           });
         }
