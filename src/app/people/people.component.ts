@@ -59,7 +59,7 @@ export class PeopleComponent implements OnInit {
               })
             });
           }
-          
+
           this.curPerson.setter('films', filmsList)
           Repository.peopleDataAdder(this.curPerson);
         }

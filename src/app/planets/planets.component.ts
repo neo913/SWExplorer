@@ -38,7 +38,9 @@ export class PlanetsComponent implements OnInit {
             let residentsList = new Array<string>();
             if(Repository.peopleData && Repository.peopleData.length > 0) {
               planet["residents"].map(residentUrl => {
-                residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
+                if(Repository.dataFinder("people", residentUrl)) {
+                  residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
+                }
               });
             }
             if(planet["residents"].length !== residentsList.length) {
@@ -54,7 +56,9 @@ export class PlanetsComponent implements OnInit {
             let filmsList = new Array<string>();
             if(Repository.filmsData && Repository.filmsData.length > 0) {
               planet["films"].map(filmsUrl => {
-                filmsList.push(Repository.dataFinder("films", filmsUrl));
+                if(Repository.dataFinder("films", filmsUrl)) {
+                  filmsList.push(Repository.dataFinder("films", filmsUrl).getter('title'));
+                }
               });
             }
             if(planet["films"].length !== filmsList) {
@@ -85,20 +89,21 @@ export class PlanetsComponent implements OnInit {
     let first = (pageIndex + 1) * 10 -10;
     let last = (pageIndex + 1) * 10 - 1;
     if(last > Repository.planetsTotal - 1) { last = Repository.planetsTotal; }
-    console.log(first, last);
     
     // if Repository has data
     if(Repository.planetsData && Repository.planetsData.length > 0) { 
       this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= first && i <= last });
-      // residents update // if data doesn't exist in Repository, get next page from API
       if(this.curPlanets.length < 10 && pageIndex != Repository.planetsTotal / 10 - 1) { 
         this.appService.getAPIwithParam("planets/?page="+(pageIndex+1)).subscribe(planetsData => {
           if(planetsData) {
             planetsData["results"].map(planet => {
+              // residents update // if data doesn't exist in Repository, get next page from API
               let residentsList = new Array<string>();
             if(Repository.peopleData && Repository.peopleData.length > 0) {
               planet["residents"].map(residentUrl => {
-                residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
+                if(Repository.dataFinder("people", residentUrl)) {
+                  residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
+                }
               });
             }
             if(planet["residents"].length !== residentsList.length) {
@@ -114,7 +119,9 @@ export class PlanetsComponent implements OnInit {
             let filmsList = new Array<string>();
             if(Repository.filmsData && Repository.filmsData.length > 0) {
               planet["films"].map(filmsUrl => {
-                filmsList.push(Repository.dataFinder("films", filmsUrl));
+                if(Repository.dataFinder("films", filmsUrl)) {
+                  filmsList.push(Repository.dataFinder("films", filmsUrl).getter('title'));
+                }
               });
             }
             if(planet["films"].length !== filmsList) {
