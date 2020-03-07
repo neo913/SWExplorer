@@ -10,6 +10,6 @@ export class AppComponent {
   
   title = 'SWExplorer';
   
-  constructor(private spinner: SpinnerService) { }
+  constructor(public spinner: SpinnerService) { }
 
 }

@@ -10,6 +10,7 @@ import { Planet } from '../model';
 })
 export class PlanetsComponent implements OnInit {
 
+  panelOpenState: boolean;
   curPlanets: Planet[];
   total: number;
   searchStr: string;
