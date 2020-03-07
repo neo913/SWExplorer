@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import {MaterialModule} from '../material.module';
 
@@ -12,7 +13,8 @@ import { PlanetsComponent } from './planets.component';
   imports: [
     CommonModule,
     PlanetsRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ]
 })
 export class PlanetsModule { }

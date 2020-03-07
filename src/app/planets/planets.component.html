@@ -1,9 +1,9 @@
 <div class="container">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let planet of planetFilter(searchStr)" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel *ngFor="let planet of curPlanets" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{planet.getter("_id")}}{{planet.getter('name')}}
+          {{planet.getter('name')}}
         </mat-panel-title>
         <mat-panel-description>
           {{spellChecker(planet.getter('climate'))}}
@@ -36,18 +36,23 @@
         </ng-container>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let movie of planet.getter('films'); let first = first; let last = last;">
-          <mat-grid-tile><span *ngIf="first">Movies</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? movie: movie + ', '}}</span></mat-grid-tile>
+        <ng-container *ngFor="let film of planet.getter('films'); let first = first; let last = last;">
+          <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
+          <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
         </ng-container>
       </mat-grid-list>
     </mat-expansion-panel>
   </mat-accordion>
   
-  <div class="search text-right">
-    <mat-form-field>
-      <mat-label>Search</mat-label>
-      <!-- <input matInput placeholder="Search" [(ngModel)]="searchStr"> -->
-    </mat-form-field>
+  <div class="search">
+    <form (submit)="planetSearch()" action="#">
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit">Search</button>
+    </form>
+    <mat-paginator [length]="total" [pageSize]="10" [hidePageSize]=true [showFirstLastButtons]=true (page)="onPaginateChange($event)"></mat-paginator>
+    <span class="flex"></span>
   </div>
 </div>
