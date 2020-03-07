@@ -46,6 +46,7 @@ export class PeopleComponent implements OnInit {
           let filmsList = new Array<string>();
           if(Repository.filmsData && Repository.filmsData.length > 0) {
             person["films"].map(filmUrl => {
+              // if(Repository.dataFinder("films", filmUrl)) { }  // Unnecessary 
               filmsList.push(Repository.dataFinder("films", filmUrl).getter('title'));
             });
           }
@@ -77,6 +78,7 @@ export class PeopleComponent implements OnInit {
   }
 
   callNextPerson() {
+    if(this.curIndex == 15) { this.curIndex++; }  // API doesn't provide https://swapi.co/people/17 (404)
     if(this.curIndex == Repository.peopleTotal - 1) {
       this.curIndex = 0;
     } else {
@@ -86,6 +88,7 @@ export class PeopleComponent implements OnInit {
   }
   
   callPrevPerson() {
+    if(this.curIndex == 17) { this.curIndex--; }  // API doesn't provide https://swapi.co/people/17 (404)
     if(this.curIndex == 0) {
       this.curIndex = Repository.peopleTotal - 1;
     } else {

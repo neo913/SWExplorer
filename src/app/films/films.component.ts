@@ -31,7 +31,9 @@ export class FilmsComponent implements OnInit {
             let charactersList = new Array<string>();
             if(Repository.peopleData && Repository.peopleData.length) {
               result["characters"].map(charUrl => {
-                charactersList.push(Repository.dataFinder("people", charUrl).getter('name'));
+                if(Repository.dataFinder("people", charUrl)) {
+                  charactersList.push(Repository.dataFinder("people", charUrl).getter('name'));
+                }
               });
             }
             if(result["characters"].length !== charactersList.length) {
@@ -47,7 +49,9 @@ export class FilmsComponent implements OnInit {
             let planetsList = new Array<string>();
             if(Repository.planetsData && Repository.planetsData.length > 0) {
               result["planets"].map(planetUrl => {
-                planetsList.push(Repository.dataFinder("planets", planetUrl).getter('name'));
+                if(Repository.dataFinder("planets", planetUrl)) {
+                  planetsList.push(Repository.dataFinder("planets", planetUrl).getter('name'));
+                }
               });
             }
             if(result["planets"].length !== planetsList.length) {
