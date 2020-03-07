@@ -49,10 +49,10 @@ export function dataGetter(type: string) {
   }
 }
 
-export function peopleDataAdder(person: Person ) {
-  if(!peopleData) { peopleData = new Array<Person>(); }
-  if(!dataFinder("people", person.getter('url'))) {
-    peopleData.push(person);
+export function peopleDataAdder(data: Object ) {
+  if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
+  if(!dataFinder("people", data["url"])) {
+    peopleData.push(parseJSON(data, "people"));
   }
 }
 
