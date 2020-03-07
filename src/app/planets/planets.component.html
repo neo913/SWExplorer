@@ -1,6 +1,5 @@
 <div class="container">
   <mat-accordion>
-    <!-- <mat-expansion-panel *ngFor="let planet of planetFilter(searchStr)" (opened)="panelOpenState = true" (closed)="panelOpenState = false"> -->
     <mat-expansion-panel *ngFor="let planet of curPlanets" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -46,10 +45,13 @@
   </mat-accordion>
   
   <div class="search">
-    <mat-form-field>
-      <mat-label>Search</mat-label>
-      <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr">
-    </mat-form-field>
+    <form (submit)="planetSearch()" action="#">
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit">Search</button>
+    </form>
     <mat-paginator [length]="total" [pageSize]="10" [hidePageSize]=true [showFirstLastButtons]=true (page)="onPaginateChange($event)"></mat-paginator>
     <span class="flex"></span>
   </div>

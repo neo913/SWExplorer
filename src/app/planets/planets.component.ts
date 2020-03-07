@@ -55,9 +55,7 @@ export class PlanetsComponent implements OnInit {
         }
       });
     } else {
-      this.curPlanets = Repository.planetsData.filter(planet => {
-        return planet.getter('_id') >= 1 && planet.getter('_id') <= 10
-      });
+      this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= 0 && i < 10 });
     }
   }
 
@@ -101,6 +99,21 @@ export class PlanetsComponent implements OnInit {
     }
     result += name + " Planet"
     return result
+  }
+
+  planetSearch() {
+    if(!this.searchStr || this.searchStr.length == 0) {
+      this.getInitPlanets();
+    } else {
+      this.appService.getAPIwithParam("planets/?search="+this.searchStr).subscribe(data =>{
+        this.curPlanets = new Array<Planet>();
+        if(data["results"]) {
+          data["results"].map(result => {
+            this.curPlanets.push(Repository.parseJSON(result, "planets"));
+          });
+        }
+      });
+    }
   }
 
 
