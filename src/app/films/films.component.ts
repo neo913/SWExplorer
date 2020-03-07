@@ -43,7 +43,7 @@ export class FilmsComponent implements OnInit {
                   charactersList.push(charData["name"]);
                 });
               });
-              result["characters"] = charactersList;
+              result["charactersList"] = charactersList;
             }
             // planets update // No API call when this finds objects in Repository
             let planetsList = new Array<string>();
@@ -62,7 +62,7 @@ export class FilmsComponent implements OnInit {
                 });
               });
             }
-            result["planets"] = planetsList;
+            result["planetsList"] = planetsList;
 
             Repository.filmsDataAdder(result);
           });
