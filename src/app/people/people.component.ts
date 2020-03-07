@@ -61,7 +61,7 @@ export class PeopleComponent implements OnInit {
             });
           }
 
-          this.curPerson.setter('filmsLits', filmsList);
+          this.curPerson.setter('filmsList', filmsList);
           Repository.peopleDataAdder(this.curPerson);
         }
       });
