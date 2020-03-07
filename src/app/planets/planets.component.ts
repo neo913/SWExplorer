@@ -25,6 +25,7 @@ export class PlanetsComponent implements OnInit {
  * get initial data from API (default 10 items)
  */
   getInitPlanets() {
+    this.curPlanets = new Array<Planet>();
     if(!Repository.planetsData || Repository.planetsData.length == 0) {
       this.appService.getAPI("planets").subscribe(planetsData => {
         if(planetsData) {
@@ -54,10 +55,9 @@ export class PlanetsComponent implements OnInit {
         }
       });
     } else {
-      this.curPlanets = new Array<Planet>();
-      Repository.planetsData.map(data => {
-        this.curPlanets.push(data);
-      })
+      this.curPlanets = Repository.planetsData.filter(planet => {
+        return planet.getter('_id') >= 1 && planet.getter('_id') <= 10
+      });
     }
   }
 
