@@ -34,11 +34,11 @@ export class PeopleComponent implements OnInit {
           this.curPerson = Repository.parseJSON(person, "people");
           // homeworld update // No API call when this finds object in Repository
           if(Repository.dataFinder("planets", person["homeworld"])) {
-            this.curPerson.setter('homeworld', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
+            this.curPerson.setter('homeworldName', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
           } else {
             this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
               if(planet) {
-                this.curPerson.setter('homeworld', planet["name"]);
+                this.curPerson.setter('homeworldName', planet["name"]);
               }
             });
           }
@@ -61,7 +61,7 @@ export class PeopleComponent implements OnInit {
             });
           }
 
-          this.curPerson.setter('films', filmsList)
+          this.curPerson.setter('filmsLits', filmsList);
           Repository.peopleDataAdder(this.curPerson);
         }
       });

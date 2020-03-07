@@ -33,10 +33,10 @@
         <mat-grid-tile>Gender</mat-grid-tile>
         <mat-grid-tile>{{curPerson.getter('gender')}}</mat-grid-tile>
         <mat-grid-tile>Home World</mat-grid-tile>
-        <mat-grid-tile>{{curPerson.getter('homeworld')}}</mat-grid-tile>
+        <mat-grid-tile>{{curPerson.getter('homeworldName')}}</mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let film of curPerson.getter('films'); let first = first; let last = last;">
+        <ng-container *ngFor="let film of curPerson.getter('filmsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
         </ng-container>
