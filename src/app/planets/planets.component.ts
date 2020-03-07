@@ -18,6 +18,13 @@ export class PlanetsComponent implements OnInit {
 
   ngOnInit() {
     if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
+    this.getInitPlanets();
+  }
+
+/**
+ * get initial data from API (default 10 items)
+ */
+  getInitPlanets() {
     if(!Repository.planetsData || Repository.planetsData.length == 0) {
       this.appService.getAPI("planets").subscribe(planetsData => {
         if(planetsData) {
@@ -30,6 +37,34 @@ export class PlanetsComponent implements OnInit {
           this.curPlanets = Repository.planetsData;
         }
       });
+    }
+  }
+
+  onPaginateChange(event) {
+   this.getMorePlanets(event.pageIndex);
+  }
+
+  getMorePlanets(pageIndex: number) {
+    let first = (pageIndex + 1) * 10 -9;
+    let last = (pageIndex + 1) * 10;
+    if(last > Repository.planetsTotal) { last = Repository.planetsTotal; }
+
+    if(Repository.planetsData && Repository.planetsData.length > 0) { // if Repository has data
+      this.curPlanets = Repository.planetsData.filter(planet => {
+        return planet.getter('_id') >= first && planet.getter('_id') <= last
+      });
+      if(this.curPlanets.length < 10 && pageIndex != Repository.planetsTotal / 10 - 1) { // if data doesn't exist in Repository, get next page from API
+        this.appService.getAPIwithParam("planets/?page="+(pageIndex+1)).subscribe(planetsData => {
+          if(planetsData) {
+            planetsData["results"].map(planet => {
+              Repository.planetsDataAdder(planet);
+            });
+            this.curPlanets = Repository.planetsData.filter(planet => {
+              return planet.getter('_id') >= first && planet.getter('_id') <= last
+            });
+          }
+        });
+      }
     }
   }
 

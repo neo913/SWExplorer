@@ -21,6 +21,10 @@ export class AppService {
     path = this.parameterCleaner(path);
     return this.http.get(path);
   }
+  
+  getAPIwithParam(param: any) {
+    return this.http.get(this.API_URL + param);
+  }
 
   parameterCleaner(param: any) {
     if(!/\/$/gm.test(param)) {

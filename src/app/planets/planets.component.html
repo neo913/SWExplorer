@@ -50,8 +50,7 @@
       <mat-label>Search</mat-label>
       <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr">
     </mat-form-field>
-    <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
-    </mat-paginator>
+    <mat-paginator [length]="total" [pageSize]="10" [hidePageSize]=true [showFirstLastButtons]=true (page)="onPaginateChange($event)"></mat-paginator>
     <span class="flex"></span>
   </div>
 </div>
