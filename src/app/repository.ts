@@ -14,9 +14,7 @@ export let filmsTotal: number;
 
 export function dataFinder(type?: string, url?: string, _id?: number) {
   let target: any[];
-  if(!type && url) {
-    type = typeFinder(url);
-  }
+  if(!type && url) { type = typeFinder(url); }
   switch(type) {
     case "people": target = peopleData; break;
     case "planets": target = planetsData; break;
@@ -32,7 +30,7 @@ export function dataFinder(type?: string, url?: string, _id?: number) {
   } catch(err) {
     return null;
   }
-  return result
+  return result;
 }
 
 export function typeFinder(url: string) {

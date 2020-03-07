@@ -32,19 +32,35 @@ export class PeopleComponent implements OnInit {
       this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
         if(person) {
           this.curPerson = Repository.parseJSON(person, "people");
-          this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
-            if(planet) {
-              this.curPerson.setter('homeworld', planet["name"]);
-            }
-          });
-          let filmsList = new Array<string>();
-          this.curPerson.getter('films').map(film => {
-            this.appService.getAPIwithExactPath(film).subscribe(filmData => {
-              if(filmData) {
-                filmsList.push(filmData["title"]);
+          // homeworld update // No API call when this finds object in Repository
+          if(Repository.dataFinder("planets", person["homeworld"])) {
+            this.curPerson.setter('homeworld', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
+          } else {
+            this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
+              if(planet) {
+                this.curPerson.setter('homeworld', planet["name"]);
               }
-            })
-          });
+            });
+          }
+          // films update // No API call when this finds objects in Repository
+          let filmsList = new Array<string>();
+          if(Repository.filmsData && Repository.filmsData.length > 0) {
+            person["films"].map(filmUrl => {
+              // if(Repository.dataFinder("films", filmUrl)) { }  // Unnecessary 
+              filmsList.push(Repository.dataFinder("films", filmUrl).getter('title'));
+            });
+          }
+          if(person["films"].length !== filmsList.length) {
+            filmsList = new Array<string>();
+            this.curPerson.getter('films').map(film => {
+              this.appService.getAPIwithExactPath(film).subscribe(filmData => {
+                if(filmData) {
+                  filmsList.push(filmData["title"]);
+                }
+              })
+            });
+          }
+
           this.curPerson.setter('films', filmsList)
           Repository.peopleDataAdder(this.curPerson);
         }
@@ -62,6 +78,7 @@ export class PeopleComponent implements OnInit {
   }
 
   callNextPerson() {
+    if(this.curIndex == 15) { this.curIndex++; }  // API doesn't provide https://swapi.co/people/17 (404)
     if(this.curIndex == Repository.peopleTotal - 1) {
       this.curIndex = 0;
     } else {
@@ -71,6 +88,7 @@ export class PeopleComponent implements OnInit {
   }
   
   callPrevPerson() {
+    if(this.curIndex == 17) { this.curIndex--; }  // API doesn't provide https://swapi.co/people/17 (404)
     if(this.curIndex == 0) {
       this.curIndex = Repository.peopleTotal - 1;
     } else {
