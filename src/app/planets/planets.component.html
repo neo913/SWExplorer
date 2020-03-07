@@ -30,13 +30,13 @@
         <mat-grid-tile>{{planet.getter('population')}}</mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let resident of planet.getter('residents'); let first = first; let last = last;">
+        <ng-container *ngFor="let resident of planet.getter('residentsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
         </ng-container>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let film of planet.getter('films'); let first = first; let last = last;">
+        <ng-container *ngFor="let film of planet.getter('filmsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
         </ng-container>
