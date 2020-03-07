@@ -46,6 +46,48 @@ export function typeFinder(url: string) {
   else { return null; }
 }
 
+export function dataTransformedChecker(type: any, id?: number) {
+  let result = true;
+  let target;
+  switch(type) {
+    case "people":      if(!id) {
+                          target = peopleData  ;
+                          target.map(item => {
+                            if(!item.getter("homeworld") || !item.getter('filmsList') || item.getter('filmsList').length == 0) { result = false; }
+                          });
+                        } else {
+                          target = dataFinder("people", null, id);
+                          if(!target.getter("homeworld") || !target.getter('filmsList') || target.getter('filmsList').length == 0) { result = false; }
+                        }
+                        break;
+
+    case "planets":     if(!id) {
+                          target = planetsData  ;
+                          target.map(item => {
+                            if(!item.getter("residentsList") || item.getter("residentsList").length == 0 || !item.getter('filmsList') || item.getter('filmsList').length == 0) { result = false; }
+                          });
+                        } else {
+                          target = dataFinder("planets", null, id);
+                          if(!target.getter("residentsList") || target.getter("residentsList").length == 0 || !target.getter('filmsList') || target.getter('filmsList').length == 0) { result = false; }
+                        }
+                        break;
+
+    case "films":       if(!id) {
+                          target = filmsData  ;
+                          target.map(item => {
+                            if(!item.getter("charactersList") || item.getter("charactersList").length == 0 || !item.getter('planetsList') || item.getter('planetsList').length == 0) { result = false; }
+                          });
+                        } else {
+                          target = dataFinder("films", null, id);
+                          if(!target.getter("charactersList") || target.getter("charactersList").length == 0 || !target.getter('planetsList') || target.getter('planetsList').length == 0) { result = false; }
+                        }
+                        break;
+
+    default:            break;
+  }
+  return result;
+}
+
 export function dataGetter(type: string) {
   switch(type) {
     case "people": return peopleData;
