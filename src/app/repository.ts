@@ -114,8 +114,8 @@ export function valueSetter(key: string, value: number) {
     case "peopleTotal":   peopleTotal = value;  break;
     case "planetsIndex":  planetsIndex = value; break;
     case "planetsTotal":  planetsTotal = value; break;
-    case "filmsIndex":   filmsIndex = value;  break;
-    case "filmsTotal":   filmsTotal = value;  break;
+    case "filmsIndex":    filmsIndex = value;   break;
+    case "filmsTotal":    filmsTotal = value;   break;
     default: break;
   }
 }
