@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   
-  title = 'SWExplorer';
+  title = 'Star Wars Explorer';
   
   constructor(public spinner: SpinnerService, private router: Router) { }
 
