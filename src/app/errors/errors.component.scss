@@ -9,7 +9,7 @@
     text-align: center;
     img {
       width: 200px;
-      padding-left: 50px;
+      padding-left: 1.5rem;
     }
   }
   .text-container {
@@ -23,8 +23,15 @@
       text-shadow: -2px -2px 0 $yellow, 2px -2px 0 $yellow, -2px 2px 0 $yellow, 2px 2px 0 $yellow;
     }
     .details {
-      span {
-        font-size: 1rem;
+      width: calc(100% - 4rem);
+      float: left;
+      text-align: center;
+      margin: 2rem;
+      div {
+        span {
+          font-size: 1rem;
+          text-align: left;
+        }
       }
     }
   }
