@@ -36,6 +36,9 @@
 footer {
   margin: 1rem;
   text-align: center;
+  .icons {
+    a { margin: 0 0.5rem; }
+  }
 }
  
  @media screen and (max-width: 650px) {

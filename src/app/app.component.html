@@ -1,4 +1,4 @@
-<div id="main" (click)="test()">
+<div id="main">
   <img src="../assets/Star-wars-logo.png" alt="logo" />
 </div>
 <div class="btn-area normal-view">
@@ -20,6 +20,19 @@
 
 <router-outlet></router-outlet>
 
+<footer>
+  <div class="icons">
+    <a target="_blank" href="https://www.linkedin.com/in/nedinsuyun/">
+      <img src="../assets/linkedin.png" alt="linkedin">
+    </a>
+    <a target="_blank" href="https://github.com/neo913/SWExplorer">
+      <img src="../assets/github.png" alt="github">
+    </a>
+  </div>
+  <div>
+    Contents, images &copy; Copyrights from: Lucasfilm Ltd., Wookiepedia, and Google.
+  </div>
+</footer>
 <div *ngIf="spinner.visibility.value" class="spinner">
   <mat-spinner [diameter]="100" color="accent"></mat-spinner>
 </div>

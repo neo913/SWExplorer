@@ -43,6 +43,11 @@ button:hover {
   cursor: pointer;
 }
 
+a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .upperbar {
   border-top: 1px solid $gray;
 }
