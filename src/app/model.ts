@@ -33,9 +33,7 @@ export class Person extends _Base {
     this.gender                                               = object && object.gender                 || '';
     this.homeworld                                            = object && object.homeworld              || '';
     this.homeworldName                                        = object && object.homeworldName          || '';
-    this.films = new Array<string>();
     object && object.films && object.films.length > 0         ? object.films.map(x => this.films.push(x))           : this.films = new Array<string>();
-    this.filmsList = new Array<string>();
     object && object.filmsList && object.filmsList.length > 0 ? object.filmsList.map(x => this.filmsList.push(x))   : this.filmsList = new Array<string>();
     this.url                                                  = object && object.url                    || '';
   }
