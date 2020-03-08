@@ -1,26 +1,26 @@
 <div id="main">
   <img routerLink="" src="../assets/Star-wars-logo.png" alt="logo" [ngClass]="{'small-logo': mainChecker()}" />
 </div>
-<div class="btn-area normal-view">
+<div class="btn-area normal-view" [ngClass]="{'show-btn': !mainChecker()}">
   <button mat-stroked-button color="yellow" routerLink="/people">People</button>
   <button mat-stroked-button color="yellow" routerLink="/planets">Planets</button>
   <button mat-stroked-button color="yellow" routerLink="/films">films</button>
-  <span class="flex"></span>
 </div>
-<div class="mobile-view">
+<div class="mobile-view" [ngClass]="{'show-btn': mainChecker()}">
   <button mat-button [matMenuTriggerFor]="appMenu">
     <mat-icon>list</mat-icon><span class="explorer">Explorer</span>
   </button>
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item color="yellow" routerLink="/people">People</button>
     <button mat-menu-item color="yellow" routerLink="/planets">Planets</button>
-    <button mat-menu-item color="yellow" routerLink="/films">films</button>
-  </mat-menu>  
+    <button mat-menu-item color="yellow" routerLink="/films">Films</button>
+  </mat-menu>
 </div>
 
 <router-outlet></router-outlet>
 
 <footer>
+  <iframe width="400" height="60" src="https://www.youtube-nocookie.com/embed/_D0ZQPqeJkk?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <div class="icons">
     <a target="_blank" href="https://www.linkedin.com/in/nedinsuyun/">
       <img src="../assets/linkedin.png" alt="linkedin">
