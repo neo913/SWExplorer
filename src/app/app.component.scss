@@ -31,7 +31,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
- }
+}
+
+footer {
+  margin: 1rem;
+  text-align: center;
+}
  
  @media screen and (max-width: 650px) {
    .btn-area { display: none !important; }

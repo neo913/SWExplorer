@@ -12,12 +12,6 @@ export let filmsData:  Film[];
 export let filmsIndex: number;
 export let filmsTotal: number;
 
-export function test() {
-  console.log(this.peopleData);
-  console.log(this.planetsData);
-  console.log(this.filmsData);
-}
-
 export function dataFinder(type?: string, url?: string, _id?: number) {
   let target: any[];
   if(!type && url) { type = typeFinder(url); }

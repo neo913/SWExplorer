@@ -13,5 +13,4 @@ export class AppComponent {
   
   constructor(public spinner: SpinnerService) { }
 
-  test () { Repository.test() }
 }
