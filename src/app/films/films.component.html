@@ -1,47 +1,49 @@
 <div class="container">
   <mat-tab-group [selectedIndex]="curIndex" color="accent">
     <mat-tab *ngFor="let film of allFilms;" label="{{film.getter('_id')}}. {{film.getter('title')}}">
-      <mat-card class="film-card">
-        <mat-card-header>
-          <div mat-card-avatar class="film-header-image">
-            <span class="avatar">{{film.getter('_id')}}</span>
+      <ng-template matTabContent>
+        <mat-card class="film-card">
+          <mat-card-header>
+            <div mat-card-avatar class="film-header-image">
+              <span class="avatar">{{film.getter('_id')}}</span>
+            </div>
+            <mat-card-title>{{film.getter('title')}}</mat-card-title>
+            <mat-card-subtitle>Episode {{film.getter('episode_id')}} ({{film.getter('release_date')}})</mat-card-subtitle>
+          </mat-card-header>
+          <div class="image-container">
+            <img mat-card-image src="{{'assets/posters/'+ film.getter('_id')+'.jpg'}}" alt="Poster">
           </div>
-          <mat-card-title>{{film.getter('title')}}</mat-card-title>
-          <mat-card-subtitle>Episode {{film.getter('episode_id')}} ({{film.getter('release_date')}})</mat-card-subtitle>
-        </mat-card-header>
-        <div class="image-container">
-          <img mat-card-image src="{{'assets/posters/'+ film.getter('_id')+'.jpg'}}" alt="Poster">
-        </div>
-        <mat-card-content>
-          <pre>{{film.getter('opening_crawl')}}</pre>
-
-          <mat-button-toggle-group #group="matButtonToggleGroup">
-            <mat-button-toggle value="director" aria-label="Director">Director</mat-button-toggle>
-            <mat-button-toggle value="producer" aria-label="Producer">Producer</mat-button-toggle>
-            <mat-button-toggle value="characters" aria-label="Characters" matBadge="{{film.getter('characters').length}}" matBadgeColor="accent">Characters</mat-button-toggle>
-            <mat-button-toggle value="planets" aria-label="Planets" matBadge="{{film.getter('planets').length}}" matBadgeColor="accent">Planets</mat-button-toggle>
-          </mat-button-toggle-group>
-
-          <div class="additional">
-            <div *ngIf="group.value == 'director'">
-              {{film.getter('director')}}
+          <mat-card-content>
+            <pre>{{film.getter('opening_crawl')}}</pre>
+  
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+              <mat-button-toggle value="director" aria-label="Director">Director</mat-button-toggle>
+              <mat-button-toggle value="producer" aria-label="Producer">Producer</mat-button-toggle>
+              <mat-button-toggle value="characters" aria-label="Characters" matBadge="{{film.getter('characters').length}}" matBadgeColor="accent">Characters</mat-button-toggle>
+              <mat-button-toggle value="planets" aria-label="Planets" matBadge="{{film.getter('planets').length}}" matBadgeColor="accent">Planets</mat-button-toggle>
+            </mat-button-toggle-group>
+  
+            <div class="additional">
+              <div *ngIf="group.value == 'director'">
+                {{film.getter('director')}}
+              </div>
+              <div *ngIf="group.value == 'producer'">
+                {{film.getter('producer')}}
+              </div>
+              <div *ngIf="group.value == 'characters'">
+                <span *ngFor="let character of film.getter('charactersList'); let last = last">{{last? character: character + ', '}}</span>
+              </div>
+              <div *ngIf="group.value == 'planets'">
+                <span *ngFor="let planet of film.getter('planetsList'); let last = last">{{last? planet: planet + ', '}}</span>
+              </div>
             </div>
-            <div *ngIf="group.value == 'producer'">
-              {{film.getter('producer')}}
-            </div>
-            <div *ngIf="group.value == 'characters'">
-              <span *ngFor="let character of film.getter('charactersList'); let last = last">{{last? character: character + ', '}}</span>
-            </div>
-            <div *ngIf="group.value == 'planets'">
-              <span *ngFor="let planet of film.getter('planetsList'); let last = last">{{last? planet: planet + ', '}}</span>
-            </div>
-          </div>
-        </mat-card-content>
-
-        <mat-card-actions>
-          <button mat-button>SHARE</button>
-        </mat-card-actions>
-      </mat-card>
+          </mat-card-content>
+  
+          <mat-card-actions>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>
