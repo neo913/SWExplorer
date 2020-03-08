@@ -87,37 +87,6 @@ export class PlanetsComponent implements OnInit {
     return data;
   }
 
-  getNewPlanet(url: string) {
-    let planet;
-    this.appService.getAPIwithExactPath(url).subscribe(planetData => {
-      
-      planet = new Planet(Repository.parseJSON(planetData));
-      
-      let residentsList = new Array<string>();
-      planet["residents"].map(person => {
-        if(Repository.dataFinder("people", person["url"])) {
-          residentsList.push(Repository.dataFinder("people", person["url"]).getter('name'));
-        } else {
-          residentsList.push(person["name"]);
-        }
-      });
-      planet.setter('residentsList', residentsList);
-
-      
-      let filmsList = new Array<string>();
-      planet["films"].map(film => {
-        if(Repository.dataFinder("films"), film["url"]) {
-          filmsList.push(Repository.dataFinder("films", film["url"]).getter('title'));
-        } else {
-          filmsList.push(film["title"]);
-        }
-      });
-      planet.setter('filmsList', filmsList);
-      
-    });
-    return planet;
-  }
-
   getPlanets(pageIndex: number) {
     let first = (pageIndex + 1) * 10 -10;
     let last = (pageIndex + 1) * 10 - 1;
