@@ -50,4 +50,7 @@ mat-card-content {
 }
 mat-card-actions {
   text-align: right;
+  button {
+    margin: 1rem !important;
+  }
 }
