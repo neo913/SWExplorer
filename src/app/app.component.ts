@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SpinnerService } from './spinner.service';
+import * as Repository from './repository';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,5 @@ export class AppComponent {
   
   constructor(public spinner: SpinnerService) { }
 
+  test () { Repository.test() }
 }
