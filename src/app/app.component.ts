@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SpinnerService } from './spinner.service';
 import * as Repository from './repository';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,9 @@ export class AppComponent {
   
   title = 'SWExplorer';
   
-  constructor(public spinner: SpinnerService) { }
+  constructor(public spinner: SpinnerService, private router: Router) { }
 
+  mainChecker() {
+    if(this.router.url !== '/') { return true; }
+  }
 }
