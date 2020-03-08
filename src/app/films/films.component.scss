@@ -6,6 +6,10 @@
   opacity: 1;
 }
 
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  opacity: 1;
+}
+
 ::ng-deep .mat-tab-header {
   margin-bottom: 1rem;
 }
