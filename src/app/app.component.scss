@@ -86,16 +86,41 @@ footer {
    #main {
      img, img.small-logo {
        width: 60%;
+       margin: 2rem auto;
      }
    }
-   .btn-area { display: none !important; }
-   .mobile-view { display: block !important; }
+   .btn-area {
+     display: flex;
+     justify-content: center;
+     margin: auto;
+     button {
+       display: flex;
+       float: left;
+        margin-left: 0.5rem;
+        margin-right: .5rem;
+        font-size: 1rem;
+        padding: 0rem 1rem;
+      }
+      &:not(.show-btn) {
+        display: none !important;
+      }
+    }
+   .mobile-view {
+     display: block !important;
+     &:not(.show-btn) {
+       display: none !important;
+     }
+    }
    .mat-menu-panel, .mat-menu-item {
      color: $yellow;
      background-color: black !important;
    }
    ::ng-deep .mat-menu-content {
      padding: 0px !important;
+   }
+   iframe {
+     height: 100px;
+     width: 100%;
    }
  }
  
