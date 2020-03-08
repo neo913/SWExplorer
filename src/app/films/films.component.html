@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-tab-group [selectedIndex]="curIndex" color="accent">
+  <mat-tab-group [(selectedIndex)]="curIndex" color="accent">
     <mat-tab *ngFor="let film of allFilms;" label="{{film.getter('_id')}}. {{film.getter('title')}}">
       <ng-template matTabContent>
         <mat-card class="film-card">
@@ -40,7 +40,7 @@
           </mat-card-content>
   
           <mat-card-actions>
-            <button mat-button>SHARE</button>
+            <button mat-raised-button color="accent" (click)="share()">SHARE</button>
           </mat-card-actions>
         </mat-card>
       </ng-template>

@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PeopleComponent } from './people.component';
 
-const routes: Routes = [{ path: '', component: PeopleComponent }];
+const routes: Routes = [
+  { path: '', component: PeopleComponent },
+  { path: ':id', component: PeopleComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

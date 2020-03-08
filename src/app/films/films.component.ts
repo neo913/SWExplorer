@@ -1,22 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { AppService } from '../app.service';
 import { Film } from '../model';
 import * as Repository from '../repository';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { MatTabGroup } from '@angular/material';
 
 @Component({
   selector: 'app-films',
   templateUrl: './films.component.html',
   styleUrls: ['./films.component.scss']
 })
-export class FilmsComponent implements OnInit {
-
+export class FilmsComponent implements OnInit, AfterViewChecked {
+  
+  @ViewChild(MatTabGroup, {static: false}) tabGroup: MatTabGroup;
+  
   allFilms: Film[];
-  curIndex: number;
+  curIndex: number = 0;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if(params['id']) {
+        this.curIndex = (params['id'] - 1);
+      }
+    });
     this.getAllFilms();
+  }
+
+  ngAfterViewChecked() {
+    this.tabGroup.selectedIndex = this.curIndex;
   }
 
   getAllFilms() {
@@ -101,6 +115,20 @@ export class FilmsComponent implements OnInit {
     }
 
     return data;
+  }
+
+  share() {
+    let el = document.createElement('textarea');
+    el.value = window.location.origin;
+    if(typeof this.curIndex) { el.value += "/films/" + (this.curIndex + 1); }
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this._snackBar.open('URL is copied!', 'OK', {
+      duration: 2000,
+    });
   }
 
 }
