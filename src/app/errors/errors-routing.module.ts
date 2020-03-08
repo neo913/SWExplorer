@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ErrorsComponent } from './errors.component';
 
 const routes: Routes = [
-  { path: '', component: ErrorsComponent }
+  { path: '',     component: ErrorsComponent },
+  { path: ':id',  component: ErrorsComponent}
 ];
 
 @NgModule({

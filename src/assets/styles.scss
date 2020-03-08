@@ -32,6 +32,8 @@ span.flex { flex: 1 1 auto; } // fill the space
 div.container {
   padding: 2rem;
   width: 50%;
+  height: auto;
+  overflow: auto;
   margin: auto;
 }
 
