@@ -47,7 +47,7 @@ export class PeopleComponent implements OnInit {
   }
 
   personUpdated(data: Person) {
-    if(!data.getter('homeworldName') || !data.getter('filmsList') || data.getter('filmsList').length == 0) {
+    if(!data.getter('homeworldName') || data.getter('films').length !== data.getter('filmsList').length) {
      return false; 
     }
     return true;
