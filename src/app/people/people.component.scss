@@ -1,9 +1,13 @@
 .people {
   mat-card-header {
-    img {
-      max-width: 40px;
-      max-height: 40px;
-      border-radius: 50px;
+    > div {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      img {
+        width: 100%;
+        border-radius: 50px;
+      }
     }
   }
   .carousel {
@@ -46,4 +50,7 @@ mat-card-content {
 }
 mat-card-actions {
   text-align: right;
+  button {
+    margin: 1rem !important;
+  }
 }

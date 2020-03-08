@@ -1,5 +1,5 @@
-<div id="main" (click)="test()">
-  <img src="../assets/Star-wars-logo.png" alt="logo" />
+<div id="main">
+  <img routerLink="" src="../assets/Star-wars-logo.png" alt="logo" [ngClass]="{'small-logo': mainChecker()}" />
 </div>
 <div class="btn-area normal-view">
   <button mat-stroked-button color="yellow" routerLink="/people">People</button>
@@ -9,7 +9,7 @@
 </div>
 <div class="mobile-view">
   <button mat-button [matMenuTriggerFor]="appMenu">
-    <mat-icon>list</mat-icon>
+    <mat-icon>list</mat-icon><span class="explorer">Explorer</span>
   </button>
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item color="yellow" routerLink="/people">People</button>
@@ -20,6 +20,19 @@
 
 <router-outlet></router-outlet>
 
+<footer>
+  <div class="icons">
+    <a target="_blank" href="https://www.linkedin.com/in/nedinsuyun/">
+      <img src="../assets/linkedin.png" alt="linkedin">
+    </a>
+    <a target="_blank" href="https://github.com/neo913/SWExplorer">
+      <img src="../assets/github.png" alt="github">
+    </a>
+  </div>
+  <div>
+    Contents, images &copy; Copyrights from: Lucasfilm Ltd., Wookiepedia, and Google.
+  </div>
+</footer>
 <div *ngIf="spinner.visibility.value" class="spinner">
   <mat-spinner [diameter]="100" color="accent"></mat-spinner>
 </div>

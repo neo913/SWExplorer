@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { Person } from '../model';
 import * as Repository from '../repository';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-people',
@@ -13,10 +15,15 @@ export class PeopleComponent implements OnInit {
   curPerson: Person;
   curIndex: number = 0;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private _snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if(Repository.peopleIndex) { this.curIndex = Repository.peopleIndex; }
+    this.route.params.subscribe(params => {
+      if(params['id']) {
+        this.curIndex = (params['id'] - 1);
+      }
+    });
     if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
     this.getPerson();
   }
@@ -24,7 +31,7 @@ export class PeopleComponent implements OnInit {
   getPerson() {
 
     if(Repository.peopleData && Repository.peopleData.length > 0 ) {
-      let target = Repository.dataFinder("people", null, this.curIndex + 1);
+      let target = Repository.dataFinder("people", null, (this.curIndex + 1));
       if(target) {
         if(!this.personUpdated(target)) {
           target = this.personUpdator(target);
@@ -34,8 +41,8 @@ export class PeopleComponent implements OnInit {
       }
     }
 
-    if(!this.curPerson || this.curPerson.getter('_id') != this.curIndex + 1) {
-      this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
+    if(!this.curPerson || this.curPerson.getter('_id') != (this.curIndex + 1)) {
+      this.appService.getAPI("people", (this.curIndex + 1)).subscribe(person => {
         if(person) {
           let personObj = this.personUpdator(Repository.parseJSON(person));
           Repository.dataAdder(personObj);
@@ -118,6 +125,20 @@ export class PeopleComponent implements OnInit {
       case "unknown": return "An Unknown";
       default: return "Someone";
     }
+  }
+
+  share() {
+    let el = document.createElement('textarea');
+    el.value = window.location.origin;
+    if(typeof this.curIndex) { el.value += "/people/" + (this.curIndex + 1); }
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this._snackBar.open('URL is copied!', 'OK', {
+      duration: 2000,
+    });
   }
 
 }

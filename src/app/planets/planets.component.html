@@ -6,6 +6,7 @@
           {{planet.getter('name')}}
         </mat-panel-title>
         <mat-panel-description>
+          <span class="flex"></span>
           {{spellChecker(planet.getter('climate'))}}
         </mat-panel-description>
       </mat-expansion-panel-header>
@@ -29,13 +30,13 @@
         <mat-grid-tile>Population</mat-grid-tile>
         <mat-grid-tile>{{planet.getter('population')}}</mat-grid-tile>
       </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1">
+      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('residentsList')?.length > 0}">
         <ng-container *ngFor="let resident of planet.getter('residentsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
         </ng-container>
       </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1">
+      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('filmsList')?.length > 0}">
         <ng-container *ngFor="let film of planet.getter('filmsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
@@ -53,6 +54,5 @@
       <button mat-raised-button color="accent" type="submit">Search</button>
     </form>
     <mat-paginator [length]="total" [pageSize]="10" [hidePageSize]=true [showFirstLastButtons]=true (page)="onPaginateChange($event)"></mat-paginator>
-    <span class="flex"></span>
   </div>
 </div>

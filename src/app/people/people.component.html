@@ -6,7 +6,7 @@
       </div>
       <mat-card-title>{{curPerson.getter('name')}}</mat-card-title>
       <mat-card-subtitle>
-        <span>{{genderChecker()}} from {{curPerson.getter('homeworld')}}.</span>
+        <span>{{genderChecker()}} from {{curPerson.getter('homeworldName')}}.</span>
       </mat-card-subtitle>
     </mat-card-header>
     <div class="carousel">
@@ -44,7 +44,7 @@
     </mat-card-content>
     
     <mat-card-actions>
-      <button mat-button>SHARE</button>
+      <button mat-raised-button color="accent" (click)="share()">SHARE</button>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -43,6 +43,15 @@ button:hover {
   cursor: pointer;
 }
 
+a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.upperbar {
+  border-top: 1px solid $gray;
+}
+
 @media screen and (min-width: 651px) and (max-width: 1024px) {
   div.container {
     width: calc(100% - 4rem);
