@@ -10,6 +10,7 @@ export class ErrorsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // LIST: 404, 503...
   }
 
 }

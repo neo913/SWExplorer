@@ -27,62 +27,64 @@ export class PlanetsComponent implements OnInit {
  */
   getInitPlanets() {
     this.curPlanets = new Array<Planet>();
-    if(!Repository.planetsData || Repository.planetsData.length == 0) {
+    if(!Repository.planetsData || Repository.planetsData.length < 10) {
       this.appService.getAPI("planets").subscribe(planetsData => {
         if(planetsData) {
           Repository.valueSetter("planetsTotal", planetsData["count"]);
           this.total = Repository.planetsTotal;
-          if(!Repository.planetsTotal) { Repository.valueSetter("planetsTotal", planetsData["count"]); }
+          
           planetsData["results"].map(planet => {
-            // residents update // No API call when this finds objects in Repository
-            let residentsList = new Array<string>();
-            if(Repository.peopleData && Repository.peopleData.length > 0) {
-              planet["residents"].map(residentUrl => {
-                if(Repository.dataFinder("people", residentUrl)) {
-                  residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
-                }
-              });
-            }
-            if(planet["residents"].length !== residentsList.length) {
-              residentsList = new Array<string>();
-              planet["residents"].map(resident => {
-                this.appService.getAPIwithExactPath(resident).subscribe(residentData => {
-                  residentsList.push(residentData["name"]);
-                });
-              });
-            }
-            planet["residents"] = residentsList;
-            // films update // No API call when this finds objects in Repository
-            let filmsList = new Array<string>();
-            if(Repository.filmsData && Repository.filmsData.length > 0) {
-              planet["films"].map(filmsUrl => {
-                if(Repository.dataFinder("films", filmsUrl)) {
-                  filmsList.push(Repository.dataFinder("films", filmsUrl).getter('title'));
-                }
-              });
-            }
-            if(planet["films"].length !== filmsList) {
-              filmsList = new Array<string>();
-              planet["films"].map(film => {
-                this.appService.getAPIwithExactPath(film).subscribe(filmData => {
-                  filmsList.push(filmData["title"]);
-                });
-              });
-            }
-            planet["films"] = filmsList;
-
-            Repository.planetsDataAdder(planet);
+            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+            Repository.dataAdder(planetObj);
           });
+          Repository.dataSort("planets");
           this.curPlanets = Repository.planetsData;
         }
       });
     } else {
+      Repository.dataSort("planets");
       this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= 0 && i < 10 });
+      this.curPlanets.map(planet => {
+        planet = this.planetUpdator(planet);
+      });
     }
   }
 
   onPaginateChange(event) {
    this.getPlanets(event.pageIndex);
+  }
+
+  planetUpdator(data: Planet) {
+      
+    if(data.getter('residents').length !== data.getter('residentsList').length) {
+      data.setter('residnetsList', new Array<string>());
+      data.getter('residents').map(personUrl => {
+        if(Repository.dataFinder("people", personUrl)) {
+          data.getter('residentsList').push(Repository.dataFinder("people", personUrl).getter('name'));
+        } else {
+          this.appService.getAPIwithExactPath(personUrl).subscribe(person => {
+            data.getter('residentsList').push(person["name"]);
+            Repository.dataAdder(Repository.parseJSON(person));
+          });
+        }
+      });
+    }
+
+    if(data.getter('films').length !== data.getter('filmsList').length) {
+      data.setter('filmsList', new Array<string>());
+      data.getter('films').map(filmUrl => {
+        if(Repository.dataFinder('films', filmUrl)) {
+          data.getter('filmsList').push(Repository.dataFinder('films', filmUrl).getter('title'));
+        } else {
+          this.appService.getAPIwithExactPath(filmUrl).subscribe(film => {
+            data.getter('filmsList').push(film["title"]);
+            Repository.dataAdder(Repository.parseJSON(film));
+          });
+        }
+      });
+    }
+
+    return data;
   }
 
   getPlanets(pageIndex: number) {
@@ -96,45 +98,10 @@ export class PlanetsComponent implements OnInit {
       if(this.curPlanets.length < 10 && pageIndex != Repository.planetsTotal / 10 - 1) { 
         this.appService.getAPIwithParam("planets/?page="+(pageIndex+1)).subscribe(planetsData => {
           if(planetsData) {
+            
             planetsData["results"].map(planet => {
-              // residents update // if data doesn't exist in Repository, get next page from API
-              let residentsList = new Array<string>();
-            if(Repository.peopleData && Repository.peopleData.length > 0) {
-              planet["residents"].map(residentUrl => {
-                if(Repository.dataFinder("people", residentUrl)) {
-                  residentsList.push(Repository.dataFinder("people", residentUrl).getter('name'));
-                }
-              });
-            }
-            if(planet["residents"].length !== residentsList.length) {
-              residentsList = new Array<string>();
-              planet["residents"].map(resident => {
-                this.appService.getAPIwithExactPath(resident).subscribe(residentData => {
-                  residentsList.push(residentData["name"]);
-                });
-              });
-            }
-            planet["residents"] = residentsList;
-            // films update // No API call when this finds objects in Repository
-            let filmsList = new Array<string>();
-            if(Repository.filmsData && Repository.filmsData.length > 0) {
-              planet["films"].map(filmsUrl => {
-                if(Repository.dataFinder("films", filmsUrl)) {
-                  filmsList.push(Repository.dataFinder("films", filmsUrl).getter('title'));
-                }
-              });
-            }
-            if(planet["films"].length !== filmsList) {
-              filmsList = new Array<string>();
-              planet["films"].map(film => {
-                this.appService.getAPIwithExactPath(film).subscribe(filmData => {
-                  filmsList.push(filmData["title"]);
-                });
-              });
-            }
-            planet["films"] = filmsList;
-              
-              Repository.planetsDataAdder(planet);
+              let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+              Repository.dataAdder(planetObj);
             });
             this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= first && i <= last });
           }
@@ -164,8 +131,9 @@ export class PlanetsComponent implements OnInit {
       this.appService.getAPIwithParam("planets/?search="+this.searchStr).subscribe(data =>{
         this.curPlanets = new Array<Planet>();
         if(data["results"]) {
-          data["results"].map(result => {
-            this.curPlanets.push(Repository.parseJSON(result, "planets"));
+          data["results"].map(planet => {
+            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+            this.curPlanets.push(planetObj);
           });
         }
       });

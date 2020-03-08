@@ -22,51 +22,65 @@ export class PeopleComponent implements OnInit {
   }
 
   getPerson() {
-    if(Repository.peopleData && Repository.peopleData.length > 0) {
+
+    if(Repository.peopleData && Repository.peopleData.length > 0 ) {
       let target = Repository.dataFinder("people", null, this.curIndex + 1);
       if(target) {
+        if(!this.personUpdated(target)) {
+          target = this.personUpdator(target);
+          Repository.dataAdder(target);
+        }
         this.curPerson = target;
       }
     }
+
     if(!this.curPerson || this.curPerson.getter('_id') != this.curIndex + 1) {
       this.appService.getAPI("people", this.curIndex + 1).subscribe(person => {
         if(person) {
-          this.curPerson = Repository.parseJSON(person, "people");
-          // homeworld update // No API call when this finds object in Repository
-          if(Repository.dataFinder("planets", person["homeworld"])) {
-            this.curPerson.setter('homeworld', Repository.dataFinder("planets", person["homeworld"]).getter('name'));
-          } else {
-            this.appService.getAPIwithExactPath(person["homeworld"]).subscribe(planet => {
-              if(planet) {
-                this.curPerson.setter('homeworld', planet["name"]);
-              }
-            });
-          }
-          // films update // No API call when this finds objects in Repository
-          let filmsList = new Array<string>();
-          if(Repository.filmsData && Repository.filmsData.length > 0) {
-            person["films"].map(filmUrl => {
-              // if(Repository.dataFinder("films", filmUrl)) { }  // Unnecessary 
-              filmsList.push(Repository.dataFinder("films", filmUrl).getter('title'));
-            });
-          }
-          if(person["films"].length !== filmsList.length) {
-            filmsList = new Array<string>();
-            this.curPerson.getter('films').map(film => {
-              this.appService.getAPIwithExactPath(film).subscribe(filmData => {
-                if(filmData) {
-                  filmsList.push(filmData["title"]);
-                }
-              })
-            });
-          }
-
-          this.curPerson.setter('films', filmsList)
-          Repository.peopleDataAdder(this.curPerson);
+          let personObj = this.personUpdator(Repository.parseJSON(person));
+          Repository.dataAdder(personObj);
+          this.curPerson = personObj;
         }
       });
     }
     Repository.valueSetter("peopleIndex", this.curIndex);
+  }
+
+  personUpdated(data: Person) {
+    if(!data.getter('homeworldName') || data.getter('films').length !== data.getter('filmsList').length) {
+     return false; 
+    }
+    return true;
+  }
+
+  personUpdator(data: Person) {
+    
+    if(!data.getter('homeworldName')) {
+      if(Repository.dataFinder("planets", data.getter('homeworld'))) {
+        data.setter('homeworldName', Repository.dataFinder("planets", data.getter("homeworld")).getter('name'));
+      } else {
+        this.appService.getAPIwithExactPath(data.getter('homeworld')).subscribe(planet => {
+          data.setter('homeworldName', planet["name"]);
+          Repository.dataAdder(Repository.parseJSON(planet));
+        });
+      }
+    }
+
+    if(data.getter('films').length !== data.getter('filmsList').length) {
+      data.setter('filmsList', new Array<string>());
+      data.getter('films').map(filmUrl => {
+        if(Repository.dataFinder('films', filmUrl)) {
+          data.getter('filmsList').push(Repository.dataFinder('films', filmUrl).getter('title'));
+        } else {
+          this.appService.getAPIwithExactPath(filmUrl).subscribe(film => {
+            data.getter('filmsList').push(film["title"]);
+            Repository.dataAdder(Repository.parseJSON(film));
+          });
+        }
+      });
+    }
+    
+    return data;
   }
 
   getTotalPeopleCount() {

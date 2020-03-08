@@ -34,54 +34,45 @@ export function dataFinder(type?: string, url?: string, _id?: number) {
 }
 
 export function typeFinder(url: string) {
-  if      (url.search("people"))  { return "people"; }
-  else if (url.search("planets")) { return "planets"; }
-  else if (url.search("films"))   { return "films"; }
+  if      (url.indexOf("people")  != -1) { return "people"; }
+  else if (url.indexOf("planets") != -1) { return "planets"; }
+  else if (url.indexOf("films")   != -1) { return "films"; }
   else { return null; }
 }
 
-export function dataGetter(type: string) {
-  switch(type) {
-    case "people": return peopleData;
-    case "planets": return planetsData;
-    case "films":  return filmsData;
-    default: return null;
+export function dataAdder(data: any) {
+  switch(typeFinder(data.getter('url'))) {
+    case 'people' : if(!peopleData || peopleData.length == 0) { peopleData = new Array<Person>(); }
+                    if(dataFinder("people", data.getter('url'))) {
+                      peopleData.splice(peopleData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
+                    peopleData.push(data);
+                    dataSort("people");
+                    break;
+    case 'planets': if(!planetsData || planetsData.length == 0) { planetsData = new Array<Planet>(); }
+                    if(dataFinder("planets", data.getter('url'))) {
+                      planetsData.splice(planetsData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
+                    planetsData.push(data);
+                    dataSort("planets");
+                    break;
+    case 'films'  : if(!filmsData || filmsData.length == 0) { filmsData = new Array<Film>(); }
+                    if(dataFinder("films", data.getter('url'))) {
+                      filmsData.splice(filmsData.findIndex(item => item.getter('url') === data.getter('url')), 1);
+                    }
+                    filmsData.push(data);
+                    dataSort("films");
+                    break;
+    default       : break;
   }
+  
 }
 
-export function peopleDataAdder(person: Person ) {
-  if(!peopleData) { peopleData = new Array<Person>(); }
-  if(!dataFinder("people", person.getter('url'))) {
-    peopleData.push(person);
-  }
-}
-
-export function planetsDataAdder(data: Object) {
-  if(!planetsData || planetsData.length == 0) { planetsData = new Array<Planet>(); }
-  if(!dataFinder("planets", data["url"])) {
-    planetsData.push(parseJSON(data, "planets"));
-  }
-}
-
-export function filmsDataAdder(data: Object) {
-  if(!filmsData) { filmsData = new Array<Film>(); }
-  if(!dataFinder("films", data["url"])) {
-     filmsData.push(parseJSON(data, "films"));
-  };
-}
-
-export function indexSetter(type: string, idx: number) {
-  switch(type) {
-    case "people":  peopleIndex = idx; break;
-    case "planets": planetsIndex = idx; break;
-    case "films":  filmsIndex  = idx; break;
-    default: break;
-  }
-}
-
-export function parseJSON(data: Object, type: string) {
+export function parseJSON(data: object) {
   let keys = Object.keys(data);
+  let type = typeFinder(data["url"]);
   let obj;
+
   switch(type) {
     case "people":  obj = new Person(); break;
     case "planets": obj = new Planet(); break;
@@ -108,8 +99,21 @@ export function valueSetter(key: string, value: number) {
     case "peopleTotal":   peopleTotal = value;  break;
     case "planetsIndex":  planetsIndex = value; break;
     case "planetsTotal":  planetsTotal = value; break;
-    case "filmsIndex":   filmsIndex = value;  break;
-    case "filmsTotal":   filmsTotal = value;  break;
+    case "filmsIndex":    filmsIndex = value;   break;
+    case "filmsTotal":    filmsTotal = value;   break;
     default: break;
+  }
+}
+
+export function dataSort(type: string) {
+  let target;
+  switch(type) {
+    case "people":  target = peopleData  ; break; 
+    case "planets": target = planetsData ; break; 
+    case "films":   target = filmsData   ; break; 
+    default:        break;
+  }
+  if(target && target.length > 0) {
+    target.sort((a, b) =>    { return a.getter('_id') - b.getter('_id'); });;
   }
 }
