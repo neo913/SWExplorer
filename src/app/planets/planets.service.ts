@@ -10,10 +10,17 @@ export class PlanetsService {
 
   constructor(private appService: AppService) { }
 
+  planetUpdated(data: Planet) {
+    if(data.getter('residents').length !== data.getter('residentsList')) {
+      return false;
+    }
+    return true;
+  }
+
   planetUpdator(data: Planet) {
-      
-    if(data.getter('residents').length !== data.getter('residentsList').length) {
-      data.setter('residnetsList', new Array<string>());
+
+    if(data.getter('residents').length > 0 && data.getter('residents').length !== data.getter('residentsList').length) {
+      data.setter('residentsList', new Array<string>());
       data.getter('residents').map(personUrl => {
         if(Repository.dataFinder("people", personUrl)) {
           data.getter('residentsList').push(Repository.dataFinder("people", personUrl).getter('name'));

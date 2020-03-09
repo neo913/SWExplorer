@@ -175,6 +175,9 @@ export class ModalComponent implements OnInit, AfterViewInit {
   targetNavigator(url?: string) {
     let desination = "/"
     if(url) {
+      if(Repository.typeFinder(url) == "planets") {
+        this.router.navigate(["/planets", url]);
+      }
       desination += Repository.typeFinder(url) + "/" + Repository.getNumber(url);
     } else {
       desination += this.dataType + "/" + this.modalData.getter('_id');

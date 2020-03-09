@@ -11,6 +11,9 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-grid-list cols="2" rowHeight="10:1">
+
+        <mat-progress-bar *ngIf="planet.getter('residents').length !== planet.getter('residentsList').length || planet.getter('films').length !== planet.getter('filmsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+
         <mat-grid-tile>Name</mat-grid-tile>
         <mat-grid-tile>{{planet.getter('name')}}</mat-grid-tile>
         <mat-grid-tile>Rotation Period</mat-grid-tile>

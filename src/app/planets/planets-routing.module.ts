@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PlanetsComponent } from './planets.component';
 
-const routes: Routes = [{ path: '', component: PlanetsComponent }];
+const routes: Routes = [
+  { path: '',         component: PlanetsComponent },
+  { path: ':keyword', component: PlanetsComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

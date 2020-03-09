@@ -5,6 +5,7 @@ import { Planet } from '../model';
 import { PlanetsService } from './planets.service';
 import { MatDialog } from '@angular/material';
 import { ModalComponent } from '../modal/modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-planets',
@@ -18,11 +19,19 @@ export class PlanetsComponent implements OnInit {
   total: number;
   searchStr: string;
 
-  constructor(private appService: AppService, private planetsService: PlanetsService, private modal: MatDialog) { }
+  constructor(private appService: AppService, private planetsService: PlanetsService, private modal: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
-    this.getInitPlanets();
+    this.route.params.subscribe(params => {
+      if(params['keyword']) {
+        this.searchStr = params['keyword'];
+        this.planetSearch();
+      }
+    });
+    if(!this.curPlanets) {
+      if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
+      this.getInitPlanets();
+    }
   }
 
 /**
@@ -41,6 +50,9 @@ export class PlanetsComponent implements OnInit {
             Repository.dataAdder(planetObj);
           });
           Repository.dataSort("planets");
+          Repository.planetsData.map(planet => {
+            planet = this.planetsService.planetUpdator(planet);
+          });
           this.curPlanets = Repository.planetsData;
         }
       });

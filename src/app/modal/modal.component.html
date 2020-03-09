@@ -38,17 +38,17 @@
             <mat-grid-tile>{{modalData.getter('gender')}}</mat-grid-tile>
             <mat-grid-tile>Home World</mat-grid-tile>
             <mat-grid-tile>
-              <a (click)="openModal(modalData.getter('homeworld'))">
+              <a (click)="targetNavigator(modalData.getter('homeworld'))">
                 {{modalData.getter('homeworldName')}}
               </a>
             </mat-grid-tile>
           </mat-grid-list>
           <mat-grid-list cols="2" rowHeight="10:1">
-            <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last; let index = index;">
+            <ng-container *ngFor="let film of modalData.getter('films'); let first = first;">
               <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
               <mat-grid-tile>
-                <a (click)="openModal(modalData.getter('films')[index])">
-                  <span>{{film}}</span>
+                <a (click)="targetNavigator(film)">
+                  <span>{{dataFinder(film)?.getter('title')}}</span>
                 </a>
               </mat-grid-tile>
             </ng-container>
