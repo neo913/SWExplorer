@@ -1,5 +1,5 @@
 <div class="container">
-  <div #films>
+  <div id="films">
     <mat-tab-group [(selectedIndex)]="curIndex" color="accent">
       <mat-tab *ngFor="let film of allFilms;" label="{{film.getter('_id')}}. {{film.getter('title')}}">
         <ng-template matTabContent>
