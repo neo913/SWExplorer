@@ -4,7 +4,7 @@ This project is a personal project to show my Front End skills using Angular.
 
 ## Demo
 
-See demo: http://tiny.cc/SWExplorer (Deployed using Firebase)
+See demo: https://tiny.cc/SWExplorer (Deployed using Firebase)
 
 (If you have an earphone, enjoy the theme song while you are exploring the website!)
 
