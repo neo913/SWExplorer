@@ -146,7 +146,7 @@ export class ModalComponent implements OnInit, AfterViewInit {
   }
 
   targetNavigator(url?: string) {
-    let desination = "/"
+    let desination = "/";
     if(url) {
       if(Repository.typeFinder(url) == "planets") {
         this.router.navigate(["/planets", this.dataFinder(url).getter('name')]);
@@ -158,7 +158,11 @@ export class ModalComponent implements OnInit, AfterViewInit {
       desination += this.dataType + "/" + this.modalData.getter('_id');
     }
     this.closeModal();
-    this.router.navigate([desination]);
+    if(this.router.url.search(Repository.typeFinder(url)) != -1) {
+      window.location.href = window.location.origin + desination;
+    } else {
+      this.router.navigate([desination]);
+    }
   }
 
   dataFinder(url: string) {
