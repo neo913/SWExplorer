@@ -1,4 +1,4 @@
-<div *ngIf="getDataType() == 'Person'">
+<div *ngIf="dataType == 'people'">
   <div mat-dialog-title>
     this.data
   </div>
@@ -13,7 +13,7 @@
 
 
 <!-- Planet Detail modal -->
-<div *ngIf="getDataType() == 'Planet'">
+<div *ngIf="dataType == 'planets'">
   <div mat-dialog-title>
     {{modalData.getter('name')}}
   </div>
@@ -24,32 +24,32 @@
     <div class="dialog-text-area">
       <mat-grid-list cols="2" rowHeight="10:1">
         <mat-grid-tile>Name</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('name')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
         <mat-grid-tile>Rotation Period</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('rotation_period')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('rotation_period')}}</mat-grid-tile>
         <mat-grid-tile>Orbital Period</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('orbital_period')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('orbital_period')}}</mat-grid-tile>
         <mat-grid-tile>Diameter</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('diameter')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('diameter')}}</mat-grid-tile>
         <mat-grid-tile>Climate</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('climate')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('climate')}}</mat-grid-tile>
         <mat-grid-tile>Gravity</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('gravity')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('gravity')}}</mat-grid-tile>
         <mat-grid-tile>Terrain</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('terrain')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('terrain')}}</mat-grid-tile>
         <mat-grid-tile>Surface water</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('surface_water')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('surface_water')}}</mat-grid-tile>
         <mat-grid-tile>Population</mat-grid-tile>
-        <mat-grid-tile>{{modalDatagetter('population')}}</mat-grid-tile>
+        <mat-grid-tile>{{modalData.getter('population')}}</mat-grid-tile>
       </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalDatagetter('residentsList')?.length > 0}">
-        <ng-container *ngFor="let resident of modalDatagetter('residentsList'); let first = first; let last = last;">
+      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('residentsList')?.length > 0}">
+        <ng-container *ngFor="let resident of modalData.getter('residentsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
         </ng-container>
       </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalDatagetter('filmsList')?.length > 0}">
-        <ng-container *ngFor="let film of modalDatagetter('filmsList'); let first = first; let last = last;">
+      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('filmsList')?.length > 0}">
+        <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
         </ng-container>
@@ -63,7 +63,7 @@
 <!-- /Planet Detail modal -->
 
 <!-- Film Detail modal -->
-<div *ngIf="getDataType() == 'Film'">
+<div *ngIf="dataType == 'films'">
   <div mat-dialog-title>
   
   </div>
@@ -77,7 +77,7 @@
 <!-- /Film Detail modal -->
 
 <!-- People List modal -->
-<div *ngIf="getDataType() == 'peopleList'">
+<div *ngIf="dataType == 'peopleList'">
   <div mat-dialog-title>
   
   </div>
@@ -89,7 +89,3 @@
   </div>
 </div>
 <!-- /People List modal -->
-
-<div>
-  {{modalData | json}}
-</div>

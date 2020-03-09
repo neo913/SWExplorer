@@ -16,6 +16,7 @@ import { FilmsService } from '../films/films.service';
 export class ModalComponent implements OnInit {
 
   modalData: any;
+  dataType: string;
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,16 +27,18 @@ export class ModalComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    switch(this.data) {
-      case 'peopleList': this.modalData = this.getListItems("people", 1);
-      default: this.modalData = this.data; break;
+
+    if(/^[https]/.test(this.data)) {
+      this.dataType = Repository.typeFinder(this.data);
+      this.modalData = this.getSingleData(this.data);
     }
+    // switch(this.data) {
+    //   case 'peopleList': this.modalData = this.getListItems("people", 1);
+      
+    //   default: // this.modalData = this.data; break;
+    // }
   }
   
-  getDataType() {
-    return typeof this.data;
-  }
-
   getSingleData(url: string) {
     let obj;
     let type = Repository.typeFinder(url);
@@ -71,6 +74,7 @@ export class ModalComponent implements OnInit {
                             let planetObj = this.planetsService.planetUpdator(Repository.parseJSON(planet));
                             Repository.dataAdder(planetObj);
                             obj = planetObj;
+                            console.log(obj);
                           }
                         });
                       }

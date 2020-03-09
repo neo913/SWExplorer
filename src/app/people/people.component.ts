@@ -111,7 +111,7 @@ export class PeopleComponent implements OnInit {
 
   openModal(data: any) {
     const dialogRef = this.modal.open(ModalComponent, {
-      width: '40%', // data: data
+      width: '40%', data: data
     });
     // dialogRef.afterClosed().subscribe(result => {
     //   // console.log('The dialog was closed');
