@@ -2,6 +2,12 @@
 
 This project is a personal project to show my Front End skills using Angular.
 
+## Demo
+
+See demo: http://tiny.cc/SWExplorer (Deployed using Firebase)
+
+(If you have an earphone, enjoy the theme song while you are exploring the website!)
+
 ## Usage (local)
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -23,6 +29,7 @@ Webpack: 4.39.2
 
 SCSS
 
+API resource: https://swapi.co
 
 ## Concepts
 
@@ -46,12 +53,3 @@ Each pages(People, Planets, Movies) are designed in different styles to show dif
 `Planets`: Board type, Search, Pagination.
 
 `Films`: Tab-Card type, Toggles.
-
-
-See demo: http://tiny.cc/SWExplorer 
-
-(If you have an earphone, enjoy the theme song while you are exploring the website!)
-
-
-
-API resource: https://swapi.co
