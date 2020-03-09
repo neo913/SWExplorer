@@ -4,8 +4,9 @@ import { Film } from '../model';
 import * as Repository from '../repository';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { MatTabGroup } from '@angular/material';
+import { MatTabGroup, MatDialog } from '@angular/material';
 import { FilmsService } from './films.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-films',
@@ -19,7 +20,7 @@ export class FilmsComponent implements OnInit, AfterViewChecked {
   allFilms: Film[];
   curIndex: number = 0;
 
-  constructor(private appService: AppService, private filmsService: FilmsService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
+  constructor(private appService: AppService, private filmsService: FilmsService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private cdr: ChangeDetectorRef, private modal: MatDialog) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -90,6 +91,16 @@ export class FilmsComponent implements OnInit, AfterViewChecked {
     this._snackBar.open('URL is copied!', 'OK', {
       duration: 2000,
     });
+  }
+
+  openModal(data: any) {
+    const dialogRef = this.modal.open(ModalComponent, {
+      width: '40%', data: data
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // console.log('The dialog was closed');
+    //   // console.log(result);
+    // });
   }
   
   dataFinder(url: string) {

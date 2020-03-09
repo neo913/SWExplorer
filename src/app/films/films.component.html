@@ -24,6 +24,9 @@
             </mat-button-toggle-group>
   
             <div class="additional">
+              
+              <mat-progress-bar *ngIf="film.getter('characters').length !== film.getter('charactersList').length || film.getter('planets').length !== film.getter('planetsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+
               <div *ngIf="group.value == 'director'">
                 {{film.getter('director')}}
               </div>
@@ -32,12 +35,16 @@
               </div>
               <div *ngIf="group.value == 'characters'">
                 <span *ngFor="let character of film.getter('characters');">
-                  {{dataFinder(character)?.getter('name')}}
+                  <a (click)="openModal(character)">
+                    {{dataFinder(character)?.getter('name')}}
+                  </a>
                 </span>
               </div>
               <div *ngIf="group.value == 'planets'">
                 <span *ngFor="let planet of film.getter('planets');">
-                  {{dataFinder(planet)?.getter('name')}}
+                  <a (click)="openModal(planet)">
+                    {{dataFinder(planet)?.getter('name')}}
+                  </a>
                 </span>
               </div>
             </div>
