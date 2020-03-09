@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Injector } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, OnInit, Inject, Injector, AfterViewInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
 import * as Repository from '../repository';
 import { Person, Planet, Film } from '../model';
 import { AppService } from '../app.service';
@@ -13,7 +13,7 @@ import { FilmsService } from '../films/films.service';
   styleUrls: ['./modal.component.scss'],
   providers: [PeopleService, PlanetsService, FilmsService]
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, AfterViewInit {
 
   modalData: any;
   dataType: string;
@@ -24,6 +24,7 @@ export class ModalComponent implements OnInit {
     private peopleService: PeopleService,
     private planetsService: PlanetsService,
     private filmsService: FilmsService,
+    private _snackBar: MatSnackBar
     ) { }
 
   ngOnInit() {
@@ -37,6 +38,14 @@ export class ModalComponent implements OnInit {
       
     //   default: // this.modalData = this.data; break;
     // }
+  }
+
+  closeModal() {
+    this.dialogRef.close();
+  }
+  
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
   }
   
   getSingleData(url: string) {
@@ -140,6 +149,25 @@ export class ModalComponent implements OnInit {
       default: break;
     }
     return results;
+  }
+
+  share() {
+    let el = document.createElement('textarea');
+    el.value = window.location.origin;
+    switch(this.dataType) {
+      case 'people':  el.value += '/people/' + this.modalData.getter('_id'); break;
+      // case 'planets': el.value += '/planets/'; break;
+      case 'films':   el.value += '/films/' + this.modalData.getter('_id');;break;
+      default: break;
+    }
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this._snackBar.open('URL is copied!', 'OK', {
+      duration: 2000,
+    });
   }
 
 }

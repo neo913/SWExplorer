@@ -3,6 +3,8 @@ import { AppService } from '../app.service';
 import * as Repository from '../repository';
 import { Planet } from '../model';
 import { PlanetsService } from './planets.service';
+import { MatDialog } from '@angular/material';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-planets',
@@ -16,7 +18,7 @@ export class PlanetsComponent implements OnInit {
   total: number;
   searchStr: string;
 
-  constructor(private appService: AppService, private planetsService: PlanetsService) { }
+  constructor(private appService: AppService, private planetsService: PlanetsService, private modal: MatDialog) { }
 
   ngOnInit() {
     if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
@@ -106,6 +108,16 @@ export class PlanetsComponent implements OnInit {
         }
       });
     }
+  }
+
+  openModal(data: any) {
+    const dialogRef = this.modal.open(ModalComponent, {
+      width: '40%', data: data
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // console.log('The dialog was closed');
+    //   // console.log(result);
+    // });
   }
 
 }

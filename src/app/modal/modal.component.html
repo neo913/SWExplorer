@@ -1,91 +1,177 @@
-<div *ngIf="dataType == 'people'">
-  <div mat-dialog-title>
-    this.data
-  </div>
-  <div mat-dialog-content>
-    <p>What's your favorite animal?</p>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
-  </div>
-</div>
+<div #modal>
 
-
-<!-- Planet Detail modal -->
-<div *ngIf="dataType == 'planets'">
-  <div mat-dialog-title>
-    {{modalData.getter('name')}}
+  <div class="x-btn">
+    <button (click)="closeModal()" class="x"><mat-icon>close</mat-icon></button>
   </div>
-  <div mat-dialog-content>
-    <div class="dialog-image-area">
+
+  <div *ngIf="dataType == 'people'" class="people">
+    <div mat-dialog-content>
+      <mat-card class="people">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img src="{{'assets/characters/' + modalData.getter('_id') + '.jpg'}}" alt="Avatar">
+          </div>
+          <mat-card-title>{{modalData.getter('name')}}</mat-card-title>
+        </mat-card-header>
+        <div class="carousel">
+          <button class="left" (click)="callPrevPerson()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+          <img class="main-image" mat-card-image  src="{{'assets/characters/'+ modalData.getter('_id') +'.jpg'}}" alt="Photo">
+          <button class="right" (click)="callNextPerson()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+        </div>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="10:1">
+            <mat-grid-tile>Name</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
+            <mat-grid-tile>Height</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('height')}}</mat-grid-tile>
+            <mat-grid-tile>Weight</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('mass')}}</mat-grid-tile>
+            <mat-grid-tile>Hair Color</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('hair_color')}}</mat-grid-tile>
+            <mat-grid-tile>Skin Color</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('skin_color')}}</mat-grid-tile>
+            <mat-grid-tile>Eye Color</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('eye_color')}}</mat-grid-tile>
+            <mat-grid-tile>Birth Year</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('birth_year')}}</mat-grid-tile>
+            <mat-grid-tile>Gender</mat-grid-tile>
+            <mat-grid-tile>{{modalData.getter('gender')}}</mat-grid-tile>
+            <mat-grid-tile>Home World</mat-grid-tile>
+            <mat-grid-tile>
+              <a (click)="openModal(modalData.getter('homeworld'))">
+                {{modalData.getter('homeworldName')}}
+              </a>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <mat-grid-list cols="2" rowHeight="10:1">
+            <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last; let index = index;">
+              <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
+              <mat-grid-tile>
+                <a (click)="openModal(modalData.getter('films')[index])">
+                  <span>{{film}}</span>
+                </a>
+              </mat-grid-tile>
+            </ng-container>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="accent" class="goto" (click)="targetNavigator()">Go To Page</button>
+      <button mat-raised-button color="accent" class="share" (click)="share()">SHARE</button>
+    </div>
+  </div>
+  
+  
+  <!-- Planet Detail modal -->
+  <div *ngIf="dataType == 'planets'">
+    <div mat-dialog-title>
+      {{modalData.getter('name')}}
+    </div>
+    <div mat-dialog-content>
+      <div class="dialog-image-area">
+        
+      </div>
+      <div class="dialog-text-area">
+        <mat-grid-list cols="2" rowHeight="10:1">
+          <mat-grid-tile>Name</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
+          <mat-grid-tile>Rotation Period</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('rotation_period')}}</mat-grid-tile>
+          <mat-grid-tile>Orbital Period</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('orbital_period')}}</mat-grid-tile>
+          <mat-grid-tile>Diameter</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('diameter')}}</mat-grid-tile>
+          <mat-grid-tile>Climate</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('climate')}}</mat-grid-tile>
+          <mat-grid-tile>Gravity</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('gravity')}}</mat-grid-tile>
+          <mat-grid-tile>Terrain</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('terrain')}}</mat-grid-tile>
+          <mat-grid-tile>Surface water</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('surface_water')}}</mat-grid-tile>
+          <mat-grid-tile>Population</mat-grid-tile>
+          <mat-grid-tile>{{modalData.getter('population')}}</mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('residentsList')?.length > 0}">
+          <ng-container *ngFor="let resident of modalData.getter('residentsList'); let first = first; let last = last;">
+            <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
+            <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
+          </ng-container>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('filmsList')?.length > 0}">
+          <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last;">
+            <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
+            <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
+          </ng-container>
+        </mat-grid-list>
+      </div>
+  
+    </div>
+    <div mat-dialog-actions>
+    </div>
+  </div>
+  <!-- /Planet Detail modal -->
+  
+  <!-- Film Detail modal -->
+  <div *ngIf="dataType == 'films'" class="films">
+    <div mat-dialog-content>
+      <mat-card class="film-card">
+        <mat-card-header>
+          <div mat-card-avatar class="film-header-image">
+            <span class="avatar">{{modalData.getter('_id')}}</span>
+          </div>
+          <mat-card-title>{{modalData.getter('title')}}</mat-card-title>
+          <mat-card-subtitle>Episode {{modalData.getter('episode_id')}} ({{modalData.getter('release_date')}})</mat-card-subtitle>
+        </mat-card-header>
+        <div class="image-container">
+          <img mat-card-image src="{{'assets/posters/'+ modalData.getter('_id')+'.jpg'}}" alt="Poster">
+        </div>
+        <mat-card-content>
+          <pre>{{modalData.getter('opening_crawl')}}</pre>
+  
+          <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle value="director" aria-label="Director">Director</mat-button-toggle>
+            <mat-button-toggle value="producer" aria-label="Producer">Producer</mat-button-toggle>
+            <mat-button-toggle value="characters" aria-label="Characters" matBadge="{{modalData.getter('characters').length}}" matBadgeColor="accent">Characters</mat-button-toggle>
+            <mat-button-toggle value="planets" aria-label="Planets" matBadge="{{modalData.getter('planets').length}}" matBadgeColor="accent">Planets</mat-button-toggle>
+          </mat-button-toggle-group>
+  
+          <div class="additional">
+            <div *ngIf="group.value == 'director'">
+              {{modalData.getter('director')}}
+            </div>
+            <div *ngIf="group.value == 'producer'">
+              {{modalData.getter('producer')}}
+            </div>
+            <div *ngIf="group.value == 'characters'">
+              <span *ngFor="let character of modalData.getter('charactersList'); let last = last">{{last? character: character + ', '}}</span>
+            </div>
+            <div *ngIf="group.value == 'planets'">
+              <span *ngFor="let planet of modalData.getter('planetsList'); let last = last">{{last? planet: planet + ', '}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="accent" class="goto" (click)="targetNavigator()">Go To Page</button>
+      <button mat-raised-button color="accent" class="share" (click)="share()">SHARE</button>
+    </div>
+  </div>
+  <!-- /Film Detail modal -->
+  
+  <!-- People List modal -->
+  <div *ngIf="dataType == 'peopleList'">
+    <div mat-dialog-title>
+    
+    </div>
+    <div mat-dialog-content>
       
     </div>
-    <div class="dialog-text-area">
-      <mat-grid-list cols="2" rowHeight="10:1">
-        <mat-grid-tile>Name</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
-        <mat-grid-tile>Rotation Period</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('rotation_period')}}</mat-grid-tile>
-        <mat-grid-tile>Orbital Period</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('orbital_period')}}</mat-grid-tile>
-        <mat-grid-tile>Diameter</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('diameter')}}</mat-grid-tile>
-        <mat-grid-tile>Climate</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('climate')}}</mat-grid-tile>
-        <mat-grid-tile>Gravity</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('gravity')}}</mat-grid-tile>
-        <mat-grid-tile>Terrain</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('terrain')}}</mat-grid-tile>
-        <mat-grid-tile>Surface water</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('surface_water')}}</mat-grid-tile>
-        <mat-grid-tile>Population</mat-grid-tile>
-        <mat-grid-tile>{{modalData.getter('population')}}</mat-grid-tile>
-      </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('residentsList')?.length > 0}">
-        <ng-container *ngFor="let resident of modalData.getter('residentsList'); let first = first; let last = last;">
-          <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
-        </ng-container>
-      </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('filmsList')?.length > 0}">
-        <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last;">
-          <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
-        </ng-container>
-      </mat-grid-list>
+    <div mat-dialog-actions>
+  
     </div>
-
   </div>
-  <div mat-dialog-actions>
-  </div>
+  <!-- /People List modal -->
 </div>
-<!-- /Planet Detail modal -->
-
-<!-- Film Detail modal -->
-<div *ngIf="dataType == 'films'">
-  <div mat-dialog-title>
-  
-  </div>
-  <div mat-dialog-content>
-    
-  </div>
-  <div mat-dialog-actions>
-
-  </div>
-</div>
-<!-- /Film Detail modal -->
-
-<!-- People List modal -->
-<div *ngIf="dataType == 'peopleList'">
-  <div mat-dialog-title>
-  
-  </div>
-  <div mat-dialog-content>
-    
-  </div>
-  <div mat-dialog-actions>
-
-  </div>
-</div>
-<!-- /People List modal -->

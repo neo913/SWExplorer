@@ -51,6 +51,9 @@ button:hover {
 a {
   font-weight: 700;
   text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .upperbar {
