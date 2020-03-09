@@ -16,7 +16,8 @@ rxjs: 6.4.0
 Webpack: 4.39.2
 SCSS
 
-## Concept and structures
+## Concepts
+
 This web app is following progressive web app concenpt and fat client concept.
 
 Tried to use Lazy loading, Dependency Injection, Interceptor, Routing, and to name but a few.
@@ -26,6 +27,7 @@ Styles are mostly followed Angular Material guide however there are several chan
 Data is from [swapi.co](https://swapi.co) and each request and responses are manged by interceptor.
 
 
+## Page design
 
 Each pages(People, Planets, Movies) are designed in different styles to show diffents skils.
 
