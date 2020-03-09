@@ -221,7 +221,9 @@
             </mat-list-item>
             <mat-list-item>
               <mat-icon>public</mat-icon>
-              <p>Home World: {{personDetail.getter('homeworldName')}}</p>
+              <a (click)="targetNavigator(personDetail.getter('homeworld'))">
+                <p>Home World: {{personDetail.getter('homeworldName')}}</p>
+              </a>
             </mat-list-item>
             <mat-divider></mat-divider>
           </mat-list>
