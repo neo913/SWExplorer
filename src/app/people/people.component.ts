@@ -17,6 +17,7 @@ export class PeopleComponent implements OnInit {
   
   curPerson: Person;
   curIndex: number = 0;
+  initPeople: Person[];
 
   constructor(private appService: AppService, private peopleService: PeopleService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private modal: MatDialog) { }
 
@@ -62,7 +63,15 @@ export class PeopleComponent implements OnInit {
     this.appService.getAPI("people").subscribe(data => {
       if(data && data["count"]) {
         Repository.valueSetter("peopleTotal", data["count"]);
+        this.setInitPeople(data);
       }
+    });
+  }
+
+  setInitPeople(data: object) {
+    this.initPeople = new Array<Person>();
+    data["results"].map(result => {
+      this.initPeople.push(this.peopleService.personUpdator(Repository.parseJSON(result)));
     });
   }
 

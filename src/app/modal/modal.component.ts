@@ -18,6 +18,9 @@ export class ModalComponent implements OnInit, AfterViewInit {
 
   modalData: any;
   dataType: string;
+  personDetail: Person;
+  peopleTotal: number;
+  personSearchStr: string;
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,15 +34,15 @@ export class ModalComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    if(/^[https]/.test(this.data)) {
+    if(typeof this.data == 'string' && /^[https]/.test(this.data)) {
       this.dataType = Repository.typeFinder(this.data);
       this.modalData = this.getSingleData(this.data);
+    } else if(this.data instanceof Array) {
+      this.dataType = "peopleList";
+      this.modalData = this.data;
+      this.peopleTotal = Repository.peopleTotal;
     }
-    // switch(this.data) {
-    //   case 'peopleList': this.modalData = this.getListItems("people", 1);
-      
-    //   default: // this.modalData = this.data; break;
-    // }
+    
   }
 
   closeModal() {
@@ -153,6 +156,15 @@ export class ModalComponent implements OnInit, AfterViewInit {
     return results;
   }
 
+  getPersonDetail(url: string) {
+    this.personDetail = new Person();
+    if(Repository.dataFinder(url)) {
+      this.personDetail = this.peopleService.personUpdator(Repository.dataFinder(url));
+    } else {
+      this.personDetail = this.modalData.find(person => person.getter('url') == url);
+    }
+  }
+
   share() {
     let el = document.createElement('textarea');
     el.value = window.location.origin;
@@ -188,6 +200,43 @@ export class ModalComponent implements OnInit, AfterViewInit {
 
   dataFinder(url: string) {
     return Repository.dataFinder(Repository.typeFinder(url), url);
+  }
+
+  getNumber(url: string) {
+    return Repository.getNumber(url);
+  }
+
+  // TODO
+  onPaginateChange(event) {
+    console.log(event);
+    this.appService.getAPIwithParam("people/?page="+event.pageIndex).subscribe(data => {
+      if(data["results"]) {
+        this.modalData = new Array<Person>();
+        data["results"].map(person => {
+          let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
+          this.modalData.push(personObj);
+        });
+      }
+    });
+  }
+
+  personSearch() {
+    if(!this.personSearchStr || this.personSearchStr.length == 0) {
+      if(Repository.peopleTotal && Repository.peopleData && Repository.peopleData.length >= 10) {
+        this.modalData = Repository.peopleData.filter((person, i) => { return i >= 0 && i < 10 });
+      }
+    } else {
+      this.modalData = new Array<Person>();
+      this.appService.getAPIwithParam("people/?search="+this.personSearchStr).subscribe(data => {
+        if(data["results"]) {
+          data["results"].map(person => {
+            let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
+            this.modalData.push(personObj);
+          });
+        }
+      });
+    }
+    this.personDetail = null;
   }
 
 }

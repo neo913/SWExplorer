@@ -4,6 +4,7 @@
     <button (click)="closeModal()" class="x"><mat-icon>close</mat-icon></button>
   </div>
 
+  <!--  People Detail modal -->
   <div *ngIf="dataType == 'people'" class="people">
     <div mat-dialog-content>
       <mat-card class="people">
@@ -15,10 +16,13 @@
         </mat-card-header>
         <div class="carousel">
           <button class="left" (click)="callPrevPerson()"><mat-icon>keyboard_arrow_left</mat-icon></button>
-          <img class="main-image" mat-card-image  src="{{'assets/characters/'+ modalData.getter('_id') +'.jpg'}}" alt="Photo">
+          <img class="main-image" mat-card-image src="{{'assets/characters/'+ modalData.getter('_id') +'.jpg'}}" alt="Photo">
           <button class="right" (click)="callNextPerson()"><mat-icon>keyboard_arrow_right</mat-icon></button>
         </div>
         <mat-card-content>
+
+          <mat-progress-bar *ngIf="!modalData.getter('homeworldName') || modalData.getter('films').length !== modalData.getter('filmsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+
           <mat-grid-list cols="2" rowHeight="10:1">
             <mat-grid-tile>Name</mat-grid-tile>
             <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
@@ -61,7 +65,7 @@
       <button mat-raised-button color="accent" class="share" (click)="share()">SHARE</button>
     </div>
   </div>
-  
+  <!--  /People Detail modal -->
   
   <!-- Planet Detail modal -->
   <div *ngIf="dataType == 'planets'">
@@ -74,6 +78,9 @@
       </div>
       <div class="dialog-text-area">
         <mat-grid-list cols="2" rowHeight="10:1">
+
+          <mat-progress-bar *ngIf="modalData.getter('residents').length !== modalData.getter('residentsList').length || modalData.getter('films').length !== modalData.getter('filmsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+
           <mat-grid-tile>Name</mat-grid-tile>
           <mat-grid-tile>{{modalData.getter('name')}}</mat-grid-tile>
           <mat-grid-tile>Rotation Period</mat-grid-tile>
@@ -146,6 +153,9 @@
           </mat-button-toggle-group>
   
           <div class="additional">
+            
+            <mat-progress-bar *ngIf="modalData.getter('characters').length !== modalData.getter('charactersList').length || modalData.getter('planets').length !== modalData.getter('planetsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+            
             <div *ngIf="group.value == 'director'">
               {{modalData.getter('director')}}
             </div>
@@ -153,10 +163,18 @@
               {{modalData.getter('producer')}}
             </div>
             <div *ngIf="group.value == 'characters'">
-              <span *ngFor="let character of modalData.getter('charactersList'); let last = last">{{last? character: character + ', '}}</span>
+              <span *ngFor="let character of modalData.getter('characters');">
+                <a (click)="targetNavigator(character)">
+                  {{dataFinder(character)?.getter('name')}}
+                </a>
+              </span>
             </div>
             <div *ngIf="group.value == 'planets'">
-              <span *ngFor="let planet of modalData.getter('planetsList'); let last = last">{{last? planet: planet + ', '}}</span>
+              <span *ngFor="let planet of modalData.getter('planets');">
+                <a (click)="targetNavigator(planet)">
+                {{dataFinder(planet)?.getter('name')}}
+              </a>
+              </span>
             </div>
           </div>
         </mat-card-content>
@@ -170,15 +188,60 @@
   <!-- /Film Detail modal -->
   
   <!-- People List modal -->
-  <div *ngIf="dataType == 'peopleList'">
-    <div mat-dialog-title>
-    
+  <div *ngIf="dataType == 'peopleList'" class="peopleList">
+    <!-- <div mat-dialog-title>  </div> -->
+    <div class="listContainer">
+      <div class="leftPanel" [ngClass]="{'shortPanel': personDetail}">
+        <div *ngFor="let person of modalData">
+          <button mat-flat-button (click)="getPersonDetail(person.getter('url'))">
+            {{person.getter('name')}}
+          </button>
+        </div>
+      </div>
+      <div class="rightPanel" *ngIf="personDetail" [ngClass]="{'hiddenPanel': !personDetail}">
+        <div class="txtNimg">
+          <img src="{{'assets/characters/'+ personDetail.getter('_id') +'.jpg'}}" alt="picture" />
+          <mat-list dense>
+            <h2>{{personDetail.getter('name')}}</h2>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <p mat-line>Height:     {{personDetail.getter('height')}}</p>
+              <p mat-line>Mass:       {{personDetail.getter('mass')}}</p>
+              <p mat-line>Hair Color: {{personDetail.getter('heir_color')}}</p>
+              <p mat-line>Skin Color: {{personDetail.getter('skin_color')}}</p>
+              <p mat-line>Eye Color:  {{personDetail.getter('eye_color')}}</p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <mat-icon>cake</mat-icon>
+              <p>Birth Year: {{personDetail.getter('birth_year')}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon>public</mat-icon>
+              <p>Home World: {{personDetail.getter('homeworldName')}}</p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <mat-grid-list cols="4">
+            <mat-grid-tile *ngFor="let film of personDetail.getter('films'); let index = index;">
+              <a (click)="targetNavigator(film)" matTooltip="{{dataFinder(film).getter('title')}}">
+                <img src="{{'assets/posters/' + getNumber(film) + '.jpg'}}" alt="poster"/>
+              </a>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        
+      </div>
     </div>
-    <div mat-dialog-content>
-      
-    </div>
-    <div mat-dialog-actions>
-  
+    <div class="actionPanel">
+      <form (submit)="personSearch()" action="#">
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search" color="accent" [(ngModel)]="personSearchStr" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit">Search</button>
+      </form>
+      <mat-paginator [length]="peopleTotal" [pageSize]="10" [hidePageSize]=true [showFirstLastButtons]=true (page)="onPaginateChange($event)"></mat-paginator>
     </div>
   </div>
   <!-- /People List modal -->

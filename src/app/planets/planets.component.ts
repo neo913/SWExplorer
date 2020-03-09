@@ -70,6 +70,7 @@ export class PlanetsComponent implements OnInit {
    this.getPlanets(event.pageIndex);
   }
 
+  // TODO
   getPlanets(pageIndex: number) {
     let first = (pageIndex + 1) * 10 -10;
     let last = (pageIndex + 1) * 10 - 1;
@@ -111,7 +112,7 @@ export class PlanetsComponent implements OnInit {
     if(!this.searchStr || this.searchStr.length == 0) {
       this.getInitPlanets();
     } else {
-      this.appService.getAPIwithParam("planets/?search="+this.searchStr).subscribe(data =>{
+      this.appService.getAPIwithParam("planets/?search="+this.searchStr).subscribe(data => {
         this.curPlanets = new Array<Planet>();
         if(data["results"]) {
           data["results"].map(planet => {

@@ -1,5 +1,7 @@
 @import '../../assets/variables.scss';
-
+#modal {
+  overflow: auto;
+}
 .x-btn {
   text-align: right;
   button {
@@ -150,6 +152,76 @@
     }
   }
     
+}
+
+.peopleList {
+  .listContainer {
+    display: flex;
+    > div {
+      float: left;
+    }
+    .leftPanel {
+      width: 100%;
+      &.shortPanel {
+        width: 30%;
+      }
+      button {
+        width: 100%;
+        text-align: left;
+      }
+    }
+    .rightPanel {
+      width: calc(70% - 24px);
+      border-left: 1px solid $gray;
+      overflow: auto;
+      max-height: 70vh;
+      &.hiddenPanel {
+        width: 0%;
+        display: none;
+      }
+      .txtNimg {
+        img {
+          width: 80%;
+          display: flex;
+          margin: auto;
+        }
+        mat-list {
+          padding: 1rem;
+          mat-list-item {
+            font-size: 1rem;
+            .mat-line:nth-child(n+2) {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  .actionPanel {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid $gray;
+    mat-form-field {
+      width: 120px;
+      padding: 1rem;
+    }
+    button {
+      margin-left: 1rem;
+    }
+    ::ng-deep .mat-focused .mat-form-field-label {
+      color: black !important;
+     }
+    
+     ::ng-deep.mat-form-field-underline {
+      background-color: black !important;
+    } 
+    
+    ::ng-deep.mat-form-field-ripple {
+     background-color: black !important;;
+    }
+  }
 }
 
 ::ng-deep .mat-dialog-actions {
