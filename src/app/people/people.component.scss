@@ -52,5 +52,9 @@ mat-card-actions {
   text-align: right;
   button {
     margin: 1rem !important;
+    &:nth-child(1) {
+      position: absolute;
+      left: 0;
+    }
   }
 }

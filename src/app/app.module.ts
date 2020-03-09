@@ -22,6 +22,9 @@ import { ModalComponent } from './modal/modal.component';
     MaterialModule,
     HttpClientModule
   ],
+  entryComponents: [
+    ModalComponent
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

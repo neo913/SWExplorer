@@ -33,7 +33,11 @@
         <mat-grid-tile>Gender</mat-grid-tile>
         <mat-grid-tile>{{curPerson.getter('gender')}}</mat-grid-tile>
         <mat-grid-tile>Home World</mat-grid-tile>
-        <mat-grid-tile>{{curPerson.getter('homeworldName')}}</mat-grid-tile>
+        <mat-grid-tile>
+          <a (click)="openModal(curPerson.getter('homeworld'))">
+            {{curPerson.getter('homeworldName')}}
+          </a>
+        </mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
         <ng-container *ngFor="let film of curPerson.getter('filmsList'); let first = first; let last = last;">
@@ -44,6 +48,7 @@
     </mat-card-content>
     
     <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="openModal('peopleList')">List</button>
       <button mat-raised-button color="accent" (click)="share()">SHARE</button>
     </mat-card-actions>
   </mat-card>
