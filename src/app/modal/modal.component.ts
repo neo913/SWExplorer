@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, Injector, AfterViewInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
+import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import * as Repository from '../repository';
-import { Person, Planet, Film } from '../model';
+import { Person } from '../model';
 import { AppService } from '../app.service';
 import { PeopleService } from '../people/people.service';
 import { PlanetsService } from '../planets/planets.service';
@@ -34,7 +34,6 @@ export class ModalComponent implements OnInit, AfterViewInit {
     ) { }
 
   ngOnInit() {
-
     if(typeof this.data == 'string' && /^[https]/.test(this.data)) {
       this.dataType = Repository.typeFinder(this.data);
       this.modalData = this.getSingleData(this.data);

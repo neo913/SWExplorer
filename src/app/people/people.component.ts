@@ -28,7 +28,7 @@ export class PeopleComponent implements OnInit {
         this.curIndex = (params['id'] - 1);
       }
     });
-    if(!Repository.peopleTotal) { this.getTotalPeopleCount() };
+    if(!Repository.peopleTotal || !this.initPeople) { this.getTotalPeopleCount() };
     this.getPerson();
   }
 
@@ -56,8 +56,6 @@ export class PeopleComponent implements OnInit {
     }
     Repository.valueSetter("peopleIndex", this.curIndex);
   }
-
-  
 
   getTotalPeopleCount() {
     this.appService.getAPI("people").subscribe(data => {
