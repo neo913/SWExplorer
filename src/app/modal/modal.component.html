@@ -189,9 +189,12 @@
   
   <!-- People List modal -->
   <div *ngIf="dataType == 'peopleList'" class="peopleList">
-    <!-- <div mat-dialog-title>  </div> -->
     <div class="listContainer">
-      <div class="leftPanel" [ngClass]="{'shortPanel': personDetail}">
+
+      <div *ngIf="!modalData || modalData.length == 0" class="noResults">
+        <span>No results</span>
+      </div>
+      <div class="leftPanel" *ngIf="modalData && modalData.length > 0" [ngClass]="{'shortPanel': personDetail}">
         <div *ngFor="let person of modalData">
           <button mat-flat-button (click)="getPersonDetail(person.getter('url'))">
             {{person.getter('name')}}
@@ -230,14 +233,15 @@
             </mat-grid-tile>
           </mat-grid-list>
         </div>
-        
       </div>
+      
     </div>
     <div class="actionPanel">
       <form (submit)="personSearch()" action="#">
         <mat-form-field>
           <mat-label>Search</mat-label>
           <input matInput placeholder="Search" color="accent" [(ngModel)]="personSearchStr" [ngModelOptions]="{standalone: true}">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="personSearchStr=''"><mat-icon>close</mat-icon></button>
         </mat-form-field>
         <button mat-raised-button color="accent" type="submit">Search</button>
       </form>

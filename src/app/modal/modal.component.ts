@@ -21,6 +21,7 @@ export class ModalComponent implements OnInit, AfterViewInit {
   personDetail: Person;
   peopleTotal: number;
   personSearchStr: string;
+  peopleIndex: number = 0;
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -117,46 +118,7 @@ export class ModalComponent implements OnInit, AfterViewInit {
     return obj;
   }
 
-  getListItems(target: string, page?: number) {
-    let results;
-    let jsonData;
-    this.appService.getAPI(target, page).subscribe(data => {
-      if(data && data["results"] && data["results"].length > 0) {
-        jsonData = data["results"];
-      }
-    });
-
-    switch(target) {
-      case "people": 
-                      results = new Array<Person>();
-                      jsonData.map(data => {
-                        let personObj = this.peopleService.personUpdator(Repository.parseJSON(data));
-                        Repository.dataAdder(personObj);
-                        results.push(personObj);
-                      });
-      break;
-      case "planets": 
-                      results = new Array<Planet>();
-                      jsonData.map(data => {
-                        let planetObj = this.planetsService.planetUpdator(Repository.parseJSON(data));
-                        Repository.dataAdder(planetObj);
-                        results.push(planetObj);
-                      });
-      break;
-      case "films": 
-                      results = new Array<Film>();
-                      jsonData.map(data => {
-                        let filmObj = this.filmsService.filmUpdator(Repository.parseJSON(data));
-                        Repository.dataAdder(filmObj);
-                        results.push(filmObj);
-                      });
-      break;
-      default: break;
-    }
-    return results;
-  }
-
-  getPersonDetail(url: string) {
+   getPersonDetail(url: string) {
     this.personDetail = new Person();
     if(Repository.dataFinder(url)) {
       this.personDetail = this.peopleService.personUpdator(Repository.dataFinder(url));
@@ -206,12 +168,10 @@ export class ModalComponent implements OnInit, AfterViewInit {
     return Repository.getNumber(url);
   }
 
-  // TODO
   onPaginateChange(event) {
-    console.log(event);
-    this.appService.getAPIwithParam("people/?page="+event.pageIndex).subscribe(data => {
-      if(data["results"]) {
-        this.modalData = new Array<Person>();
+    this.modalData = new Array<Person>();
+    this.appService.getAPIwithParam("people/?page="+(event.pageIndex + 1)).subscribe(data => {
+      if(data["results"]) {   
         data["results"].map(person => {
           let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
           this.modalData.push(personObj);
@@ -224,6 +184,11 @@ export class ModalComponent implements OnInit, AfterViewInit {
     if(!this.personSearchStr || this.personSearchStr.length == 0) {
       if(Repository.peopleTotal && Repository.peopleData && Repository.peopleData.length >= 10) {
         this.modalData = Repository.peopleData.filter((person, i) => { return i >= 0 && i < 10 });
+      } else {
+        this.appService.getAPI("people").subscribe(person => {
+          let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
+            this.modalData.push(personObj);
+        });
       }
     } else {
       this.modalData = new Array<Person>();

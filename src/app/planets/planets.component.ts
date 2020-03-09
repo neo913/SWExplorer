@@ -70,6 +70,21 @@ export class PlanetsComponent implements OnInit {
    this.getPlanets(event.pageIndex);
   }
 
+  /*
+  FILM -> MOVIE
+햄버거 버튼?
+SWExplorer -> Star Wars Explorer
+카드타입: 아이템 찾기 힘듬(리스트 있으면?)
+좀 난잡?
+피플 버튼 위치(잘 안보임)
+배경 흰색 글 검은색 말고?
+무비 글씨체?
+배경에 비행기 한대 지나갈까?
+테두리? 노란테두리?
+피플 대신 사진으로 오파시티 넣고 클릭하면 콜?
+피플 사진이 너무 크다?
+광선검 보고싶다
+  */
   // TODO
   getPlanets(pageIndex: number) {
     let first = (pageIndex + 1) * 10 -10;
