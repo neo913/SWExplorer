@@ -31,21 +31,21 @@
         <mat-grid-tile>{{planet.getter('population')}}</mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('residentsList')?.length > 0}">
-        <ng-container *ngFor="let resident of planet.getter('residentsList'); let first = first; let last = last; let index = index;">
+        <ng-container *ngFor="let resident of planet.getter('residents'); let first = first;">
           <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
           <mat-grid-tile>
-            <a (click)="openModal(planet.getter('residents')[index])">
-              <span>{{resident}}</span>
+            <a (click)="openModal(resident)">
+              <span>{{dataFinder(resident)?.getter('name')}}</span>
             </a>
           </mat-grid-tile>
         </ng-container>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('filmsList')?.length > 0}">
-        <ng-container *ngFor="let film of planet.getter('filmsList'); let first = first; let last = last; let index = index;">
+        <ng-container *ngFor="let film of planet.getter('films'); let first = first;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile>
-            <a (click)="openModal(planet.getter('films')[index])">
-              <span>{{film}}</span>
+            <a (click)="openModal(film)">
+              <span>{{dataFinder(film)?.getter('title')}}</span>
             </a>
         </mat-grid-tile>
         </ng-container>

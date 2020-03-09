@@ -31,10 +31,14 @@
                 {{film.getter('producer')}}
               </div>
               <div *ngIf="group.value == 'characters'">
-                <span *ngFor="let character of film.getter('charactersList'); let last = last">{{character}}</span>
+                <span *ngFor="let character of film.getter('characters');">
+                  {{dataFinder(character).getter('name')}}
+                </span>
               </div>
               <div *ngIf="group.value == 'planets'">
-                <span *ngFor="let planet of film.getter('planetsList'); let last = last">{{planet}}</span>
+                <span *ngFor="let planet of film.getter('planets');">
+                  {{dataFinder(planet).getter('name')}}
+                </span>
               </div>
             </div>
           </mat-card-content>

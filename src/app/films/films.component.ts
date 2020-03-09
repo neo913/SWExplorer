@@ -91,5 +91,8 @@ export class FilmsComponent implements OnInit, AfterViewChecked {
       duration: 2000,
     });
   }
-
+  
+  dataFinder(url: string) {
+    return Repository.dataFinder(Repository.typeFinder(url), url);
+  }
 }

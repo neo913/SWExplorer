@@ -120,4 +120,8 @@ export class PlanetsComponent implements OnInit {
     // });
   }
 
+  dataFinder(url: string) {
+    return Repository.dataFinder(Repository.typeFinder(url), url);
+  }
+
 }

@@ -40,11 +40,11 @@
         </mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1">
-        <ng-container *ngFor="let film of curPerson.getter('filmsList'); let first = first; let last = last; let index = index;">
+        <ng-container *ngFor="let film of curPerson.getter('films'); let first = first;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile>
-            <a (click)="openModal(curPerson.getter('films')[index])">
-              <span>{{film}}</span>
+            <a (click)="openModal(film)">
+              <span>{{dataFinder(film)}}</span>
             </a>
           </mat-grid-tile>
         </ng-container>
