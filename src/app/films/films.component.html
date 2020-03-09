@@ -25,8 +25,6 @@
   
             <div class="additional">
               
-              <mat-progress-bar *ngIf="film.getter('characters').length !== film.getter('charactersList').length || film.getter('planets').length !== film.getter('planetsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
-
               <div *ngIf="group.value == 'director'">
                 {{film.getter('director')}}
               </div>
@@ -39,6 +37,7 @@
                     {{dataFinder(character)?.getter('name')}}
                   </a>
                 </span>
+                <mat-progress-bar *ngIf="film.getter('planets').length !== film.getter('planetsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
               </div>
               <div *ngIf="group.value == 'planets'">
                 <span *ngFor="let planet of film.getter('planets');">
@@ -46,6 +45,7 @@
                     {{dataFinder(planet)?.getter('name')}}
                   </a>
                 </span>
+                <mat-progress-bar *ngIf="film.getter('planets').length !== film.getter('planetsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
               </div>
             </div>
           </mat-card-content>

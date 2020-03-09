@@ -1,6 +1,7 @@
 .people {
   width: 50%;
   margin: auto;
+  padding: 3rem;
   mat-card-header {
     > div {
       width: 40px;
@@ -52,13 +53,8 @@ mat-card-content {
 }
 
 mat-card-actions {
-  text-align: right;
-  button {
-    margin: 1rem !important;
-    &:nth-child(1) {
-      position: absolute;
-      left: 0;
-    }
+  button:nth-child(2) {
+      float: right;
   }
 }
 

@@ -60,7 +60,8 @@
     <form (submit)="planetSearch()" action="#">
       <mat-form-field>
         <mat-label>Search</mat-label>
-        <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+        <input matInput placeholder="Search" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchStr=''"><mat-icon>close</mat-icon></button>
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit">Search</button>
     </form>
