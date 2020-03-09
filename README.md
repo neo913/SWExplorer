@@ -1,29 +1,34 @@
-Published on http://tiny.cc/SWExplorer
+#Star Wars Explorer
 
-# SWExplorer
+This project is a personal project to show my Front End skills using Angular.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
-
-## Development server
+## Usage (local)
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Used
+Angular CLI: 8.3.25
+Node: 12.13.1
+OS: win32 x64
+Angular: 8.2.14
+Angular Material: 8.2.3
+rxjs: 6.4.0
+Webpack: 4.39.2
+SCSS
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Concept and structures
+This web app is following progressive web app concenpt and fat client concept.
+Tried to use Lazy loading, Dependency Injection, Interceptor, Routing, and to name but a few.
+Styles are mostly followed Angular Material guide however there are several changes usinsg SCSS.
+Data is from https://swapi.co and each request and responses are manged by interceptor.
 
-## Build
+Each pages(People, Planets, Movies) are designed in different styles to show diffents skils.
+`General`: Lazy loading, Fat-Client, Share, Hyperlinks to let user navigate the website easily.
+`People`: Card type with carousel style, List available on modal.
+`Planets`: Board type, Search, Pagination.
+`Films`: Tab-Card type, Toggles.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+See demo: http://tiny.cc/SWExplorer 
+(If you have an earphone, enjoy the theme song while you are exploring the website!)
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+API resource: https://swapi.co
