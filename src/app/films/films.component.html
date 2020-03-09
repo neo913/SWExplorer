@@ -32,12 +32,12 @@
               </div>
               <div *ngIf="group.value == 'characters'">
                 <span *ngFor="let character of film.getter('characters');">
-                  {{dataFinder(character).getter('name')}}
+                  {{dataFinder(character)?.getter('name')}}
                 </span>
               </div>
               <div *ngIf="group.value == 'planets'">
                 <span *ngFor="let planet of film.getter('planets');">
-                  {{dataFinder(planet).getter('name')}}
+                  {{dataFinder(planet)?.getter('name')}}
                 </span>
               </div>
             </div>

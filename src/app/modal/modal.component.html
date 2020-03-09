@@ -94,15 +94,23 @@
           <mat-grid-tile>{{modalData.getter('population')}}</mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('residentsList')?.length > 0}">
-          <ng-container *ngFor="let resident of modalData.getter('residentsList'); let first = first; let last = last;">
+          <ng-container *ngFor="let resident of modalData.getter('residents'); let first = first;">
             <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
-            <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
+            <mat-grid-tile>
+              <a (click)="targetNavigator(resident)">
+                <span>{{dataFinder(resident)?.getter('name')}}</span>
+              </a>
+            </mat-grid-tile>
           </ng-container>
         </mat-grid-list>
         <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': modalData.getter('filmsList')?.length > 0}">
-          <ng-container *ngFor="let film of modalData.getter('filmsList'); let first = first; let last = last;">
+          <ng-container *ngFor="let film of modalData.getter('films'); let first = first;">
             <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
-            <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
+            <mat-grid-tile>
+              <a (click)="targetNavigator(film)">
+                <span>{{dataFinder(film)?.getter('title')}}</span>
+              </a>
+          </mat-grid-tile>
           </ng-container>
         </mat-grid-list>
       </div>

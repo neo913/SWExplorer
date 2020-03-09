@@ -44,7 +44,7 @@
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
           <mat-grid-tile>
             <a (click)="openModal(film)">
-              <span>{{dataFinder(film)}}</span>
+              <span>{{dataFinder(film)?.getter('title')}}</span>
             </a>
           </mat-grid-tile>
         </ng-container>

@@ -6,6 +6,7 @@ import { AppService } from '../app.service';
 import { PeopleService } from '../people/people.service';
 import { PlanetsService } from '../planets/planets.service';
 import { FilmsService } from '../films/films.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal',
@@ -24,7 +25,8 @@ export class ModalComponent implements OnInit, AfterViewInit {
     private peopleService: PeopleService,
     private planetsService: PlanetsService,
     private filmsService: FilmsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -168,6 +170,21 @@ export class ModalComponent implements OnInit, AfterViewInit {
     this._snackBar.open('URL is copied!', 'OK', {
       duration: 2000,
     });
+  }
+
+  targetNavigator(url?: string) {
+    let desination = "/"
+    if(url) {
+      desination += Repository.typeFinder(url) + "/" + Repository.getNumber(url);
+    } else {
+      desination += this.dataType + "/" + this.modalData.getter('_id');
+    }
+    this.closeModal();
+    this.router.navigate([desination]);
+  }
+
+  dataFinder(url: string) {
+    return Repository.dataFinder(Repository.typeFinder(url), url);
   }
 
 }
