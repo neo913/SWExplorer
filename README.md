@@ -1,4 +1,4 @@
-#Star Wars Explorer
+# Star Wars Explorer
 
 This project is a personal project to show my Front End skills using Angular.
 
@@ -18,17 +18,30 @@ SCSS
 
 ## Concept and structures
 This web app is following progressive web app concenpt and fat client concept.
+
 Tried to use Lazy loading, Dependency Injection, Interceptor, Routing, and to name but a few.
+
 Styles are mostly followed Angular Material guide however there are several changes usinsg SCSS.
-Data is from https://swapi.co and each request and responses are manged by interceptor.
+
+Data is from [swapi.co](https://swapi.co) and each request and responses are manged by interceptor.
+
+
 
 Each pages(People, Planets, Movies) are designed in different styles to show diffents skils.
+
 `General`: Lazy loading, Fat-Client, Share, Hyperlinks to let user navigate the website easily.
+
 `People`: Card type with carousel style, List available on modal.
+
 `Planets`: Board type, Search, Pagination.
+
 `Films`: Tab-Card type, Toggles.
 
+
 See demo: http://tiny.cc/SWExplorer 
+
 (If you have an earphone, enjoy the theme song while you are exploring the website!)
+
+
 
 API resource: https://swapi.co
