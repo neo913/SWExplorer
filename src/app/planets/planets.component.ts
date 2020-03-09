@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import * as Repository from '../repository';
 import { Planet } from '../model';
+import { PlanetsService } from './planets.service';
 
 @Component({
   selector: 'app-planets',
@@ -15,7 +16,7 @@ export class PlanetsComponent implements OnInit {
   total: number;
   searchStr: string;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private planetsService: PlanetsService) { }
 
   ngOnInit() {
     if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
@@ -34,7 +35,7 @@ export class PlanetsComponent implements OnInit {
           this.total = Repository.planetsTotal;
           
           planetsData["results"].map(planet => {
-            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+            let planetObj = this.planetsService.planetUpdator(Repository.parseJSON(planet));
             Repository.dataAdder(planetObj);
           });
           Repository.dataSort("planets");
@@ -45,46 +46,13 @@ export class PlanetsComponent implements OnInit {
       Repository.dataSort("planets");
       this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= 0 && i < 10 });
       this.curPlanets.map(planet => {
-        planet = this.planetUpdator(planet);
+        planet = this.planetsService.planetUpdator(planet);
       });
     }
   }
 
   onPaginateChange(event) {
    this.getPlanets(event.pageIndex);
-  }
-
-  planetUpdator(data: Planet) {
-      
-    if(data.getter('residents').length !== data.getter('residentsList').length) {
-      data.setter('residnetsList', new Array<string>());
-      data.getter('residents').map(personUrl => {
-        if(Repository.dataFinder("people", personUrl)) {
-          data.getter('residentsList').push(Repository.dataFinder("people", personUrl).getter('name'));
-        } else {
-          this.appService.getAPIwithExactPath(personUrl).subscribe(person => {
-            data.getter('residentsList').push(person["name"]);
-            Repository.dataAdder(Repository.parseJSON(person));
-          });
-        }
-      });
-    }
-
-    if(data.getter('films').length !== data.getter('filmsList').length) {
-      data.setter('filmsList', new Array<string>());
-      data.getter('films').map(filmUrl => {
-        if(Repository.dataFinder('films', filmUrl)) {
-          data.getter('filmsList').push(Repository.dataFinder('films', filmUrl).getter('title'));
-        } else {
-          this.appService.getAPIwithExactPath(filmUrl).subscribe(film => {
-            data.getter('filmsList').push(film["title"]);
-            Repository.dataAdder(Repository.parseJSON(film));
-          });
-        }
-      });
-    }
-
-    return data;
   }
 
   getPlanets(pageIndex: number) {
@@ -100,7 +68,7 @@ export class PlanetsComponent implements OnInit {
           if(planetsData) {
             
             planetsData["results"].map(planet => {
-              let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+              let planetObj = this.planetsService.planetUpdator(Repository.parseJSON(planet));
               Repository.dataAdder(planetObj);
             });
             this.curPlanets = Repository.planetsData.filter((planet, i) => { return i >= first && i <= last });
@@ -132,7 +100,7 @@ export class PlanetsComponent implements OnInit {
         this.curPlanets = new Array<Planet>();
         if(data["results"]) {
           data["results"].map(planet => {
-            let planetObj = this.planetUpdator(Repository.parseJSON(planet));
+            let planetObj = this.planetsService.planetUpdator(Repository.parseJSON(planet));
             this.curPlanets.push(planetObj);
           });
         }

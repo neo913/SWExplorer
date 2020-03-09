@@ -4,6 +4,9 @@ import { Person } from '../model';
 import * as Repository from '../repository';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { ModalComponent } from '../modal/modal.component';
+import { MatDialog } from '@angular/material';
+import { PeopleService } from './people.service';
 
 @Component({
   selector: 'app-people',
@@ -15,7 +18,7 @@ export class PeopleComponent implements OnInit {
   curPerson: Person;
   curIndex: number = 0;
 
-  constructor(private appService: AppService, private _snackBar: MatSnackBar, private route: ActivatedRoute) { }
+  constructor(private appService: AppService, private peopleService: PeopleService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private modal: MatDialog) { }
 
   ngOnInit() {
     if(Repository.peopleIndex) { this.curIndex = Repository.peopleIndex; }
@@ -33,8 +36,8 @@ export class PeopleComponent implements OnInit {
     if(Repository.peopleData && Repository.peopleData.length > 0 ) {
       let target = Repository.dataFinder("people", null, (this.curIndex + 1));
       if(target) {
-        if(!this.personUpdated(target)) {
-          target = this.personUpdator(target);
+        if(!this.peopleService.personUpdated(target)) {
+          target = this.peopleService.personUpdator(target);
           Repository.dataAdder(target);
         }
         this.curPerson = target;
@@ -44,7 +47,7 @@ export class PeopleComponent implements OnInit {
     if(!this.curPerson || this.curPerson.getter('_id') != (this.curIndex + 1)) {
       this.appService.getAPI("people", (this.curIndex + 1)).subscribe(person => {
         if(person) {
-          let personObj = this.personUpdator(Repository.parseJSON(person));
+          let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
           Repository.dataAdder(personObj);
           this.curPerson = personObj;
         }
@@ -53,42 +56,7 @@ export class PeopleComponent implements OnInit {
     Repository.valueSetter("peopleIndex", this.curIndex);
   }
 
-  personUpdated(data: Person) {
-    if(!data.getter('homeworldName') || data.getter('films').length !== data.getter('filmsList').length) {
-     return false; 
-    }
-    return true;
-  }
-
-  personUpdator(data: Person) {
-    
-    if(!data.getter('homeworldName')) {
-      if(Repository.dataFinder("planets", data.getter('homeworld'))) {
-        data.setter('homeworldName', Repository.dataFinder("planets", data.getter("homeworld")).getter('name'));
-      } else {
-        this.appService.getAPIwithExactPath(data.getter('homeworld')).subscribe(planet => {
-          data.setter('homeworldName', planet["name"]);
-          Repository.dataAdder(Repository.parseJSON(planet));
-        });
-      }
-    }
-
-    if(data.getter('films').length !== data.getter('filmsList').length) {
-      data.setter('filmsList', new Array<string>());
-      data.getter('films').map(filmUrl => {
-        if(Repository.dataFinder('films', filmUrl)) {
-          data.getter('filmsList').push(Repository.dataFinder('films', filmUrl).getter('title'));
-        } else {
-          this.appService.getAPIwithExactPath(filmUrl).subscribe(film => {
-            data.getter('filmsList').push(film["title"]);
-            Repository.dataAdder(Repository.parseJSON(film));
-          });
-        }
-      });
-    }
-    
-    return data;
-  }
+  
 
   getTotalPeopleCount() {
     this.appService.getAPI("people").subscribe(data => {
@@ -139,6 +107,16 @@ export class PeopleComponent implements OnInit {
     this._snackBar.open('URL is copied!', 'OK', {
       duration: 2000,
     });
+  }
+
+  openModal(data: any) {
+    const dialogRef = this.modal.open(ModalComponent, {
+      width: '40%', // data: data
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // console.log('The dialog was closed');
+    //   // console.log(result);
+    // });
   }
 
 }
