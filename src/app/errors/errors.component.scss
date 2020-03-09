@@ -1,0 +1,38 @@
+@import '../../assets/variables.scss';
+
+.errors {
+  .img-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    img {
+      width: 200px;
+      padding-left: 1.5rem;
+    }
+  }
+  .text-container {
+    text-align: center;
+    margin: 2rem;
+    > span {
+      width: 100%;
+      float: left;
+      font-size: 3rem;
+      color: black;
+      text-shadow: -2px -2px 0 $yellow, 2px -2px 0 $yellow, -2px 2px 0 $yellow, 2px 2px 0 $yellow;
+    }
+    .details {
+      width: calc(100% - 4rem);
+      float: left;
+      text-align: center;
+      margin: 2rem;
+      div {
+        span {
+          font-size: 1rem;
+          text-align: left;
+        }
+      }
+    }
+  }
+}

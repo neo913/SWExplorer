@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PlanetsComponent } from './planets.component';
+import { ErrorsComponent } from './errors.component';
 
 const routes: Routes = [
-  { path: '',         component: PlanetsComponent },
-  { path: ':keyword', component: PlanetsComponent }
+  { path: '',     component: ErrorsComponent },
+  { path: ':id',  component: ErrorsComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PlanetsRoutingModule { }
+export class ErrorsRoutingModule { }

@@ -4,11 +4,11 @@
 <div class="btn-area normal-view" [ngClass]="{'show-btn': !mainChecker()}">
   <button mat-stroked-button color="yellow" routerLink="/people">People</button>
   <button mat-stroked-button color="yellow" routerLink="/planets">Planets</button>
-  <button mat-stroked-button color="yellow" routerLink="/films">films</button>
+  <button mat-stroked-button color="yellow" routerLink="/films">Movies</button>
 </div>
 <div class="mobile-view" [ngClass]="{'show-btn': mainChecker()}">
   <button mat-button [matMenuTriggerFor]="appMenu">
-    <mat-icon>list</mat-icon><span class="explorer">Explorer</span>
+    <mat-icon>menu</mat-icon><span class="explorer">Explorer</span>
   </button>
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item color="yellow" routerLink="/people">People</button>

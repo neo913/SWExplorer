@@ -6,8 +6,7 @@ html, body {
   background-image: url(./background.png);
 	background-position: 0px 0px;
 	background-repeat: repeat;
-
-	animation: animatedBackground 40s linear infinite;
+  animation: animatedBackground 40s linear infinite;
 }
 
 @keyframes animatedBackground {
@@ -17,9 +16,13 @@ html, body {
 
 body { 
   margin: 0; 
-  font-family: Roboto, "Helvetica Neue", sans-serif; 
   color: $yellow; 
   font-size: 12px; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  :focus { border: none; }
 }
 
 span.flex { flex: 1 1 auto; } // fill the space
@@ -32,7 +35,9 @@ span.flex { flex: 1 1 auto; } // fill the space
 div.container {
   padding: 2rem;
   width: 50%;
+  height: auto;
   margin: auto;
+  overflow: auto;
 }
 
 .text-right {
@@ -46,6 +51,9 @@ button:hover {
 a {
   font-weight: 700;
   text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .upperbar {
@@ -59,6 +67,7 @@ a {
 }
 @media screen and (max-width: 650px) {
   div.container {
-    width: calc(100% - 4rem);
+    width: calc(100% - 2rem);
+    padding: 1rem;
   }
 }

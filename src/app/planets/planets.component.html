@@ -11,6 +11,9 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-grid-list cols="2" rowHeight="10:1">
+
+        <mat-progress-bar *ngIf="planet.getter('residents').length !== planet.getter('residentsList').length || planet.getter('films').length !== planet.getter('filmsList').length" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+
         <mat-grid-tile>Name</mat-grid-tile>
         <mat-grid-tile>{{planet.getter('name')}}</mat-grid-tile>
         <mat-grid-tile>Rotation Period</mat-grid-tile>
@@ -31,15 +34,23 @@
         <mat-grid-tile>{{planet.getter('population')}}</mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('residentsList')?.length > 0}">
-        <ng-container *ngFor="let resident of planet.getter('residentsList'); let first = first; let last = last;">
+        <ng-container *ngFor="let resident of planet.getter('residents'); let first = first;">
           <mat-grid-tile><span *ngIf="first">Residents</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? resident: resident + ', '}}</span></mat-grid-tile>
+          <mat-grid-tile>
+            <a (click)="openModal(resident)">
+              <span>{{dataFinder(resident)?.getter('name')}}</span>
+            </a>
+          </mat-grid-tile>
         </ng-container>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="10:1" [ngClass]="{'upperbar': planet.getter('filmsList')?.length > 0}">
-        <ng-container *ngFor="let film of planet.getter('filmsList'); let first = first; let last = last;">
+        <ng-container *ngFor="let film of planet.getter('films'); let first = first;">
           <mat-grid-tile><span *ngIf="first">Films</span></mat-grid-tile>
-          <mat-grid-tile><span>{{last? film: film + ', '}}</span></mat-grid-tile>
+          <mat-grid-tile>
+            <a (click)="openModal(film)">
+              <span>{{dataFinder(film)?.getter('title')}}</span>
+            </a>
+        </mat-grid-tile>
         </ng-container>
       </mat-grid-list>
     </mat-expansion-panel>
@@ -49,7 +60,8 @@
     <form (submit)="planetSearch()" action="#">
       <mat-form-field>
         <mat-label>Search</mat-label>
-        <input matInput placeholder="Search" color="accent" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+        <input matInput placeholder="Search" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchStr=''"><mat-icon>close</mat-icon></button>
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit">Search</button>
     </form>
