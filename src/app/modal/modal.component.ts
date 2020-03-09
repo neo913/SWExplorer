@@ -154,15 +154,17 @@ export class ModalComponent implements OnInit, AfterViewInit {
         return;
       }
       desination += Repository.typeFinder(url) + "/" + Repository.getNumber(url);
+      if(this.router.url.search(Repository.typeFinder(url)) != -1) {
+        window.location.href = window.location.origin + desination;
+        return;
+      } else {
+        this.router.navigate([desination]);
+      }
     } else {
       desination += this.dataType + "/" + this.modalData.getter('_id');
     }
     this.closeModal();
-    if(this.router.url.search(Repository.typeFinder(url)) != -1) {
-      window.location.href = window.location.origin + desination;
-    } else {
-      this.router.navigate([desination]);
-    }
+    this.router.navigate([desination]);
   }
 
   dataFinder(url: string) {
