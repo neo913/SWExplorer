@@ -150,7 +150,7 @@ export class ModalComponent implements OnInit, AfterViewInit {
     let desination = "/"
     if(url) {
       if(Repository.typeFinder(url) == "planets") {
-        this.router.navigate(["/planets", this.personDetail.getter('homeworldName')]);
+        this.router.navigate(["/planets", this.dataFinder(url).getter('name')]);
         this.closeModal();
         return;
       }
@@ -171,9 +171,9 @@ export class ModalComponent implements OnInit, AfterViewInit {
   }
 
   onPaginateChange(event) {
-    this.modalData = new Array<Person>();
     this.appService.getAPIwithParam("people/?page="+(event.pageIndex + 1)).subscribe(data => {
-      if(data["results"]) {   
+      if(data["results"]) {
+        this.modalData = new Array<Person>();
         data["results"].map(person => {
           let personObj = this.peopleService.personUpdator(Repository.parseJSON(person));
           this.modalData.push(personObj);

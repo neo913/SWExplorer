@@ -1,99 +1,99 @@
 @import '../../assets/variables.scss';
 
-::ng-deep .mat-tab-label .mat-tab-label-content {
-  color: $yellow;
-  font-size: 1rem;
-  opacity: 1;
-}
-
-::ng-deep .mat-tab-label.mat-tab-label-active {
-  opacity: 1;
-}
-
-::ng-deep .mat-tab-header {
-  margin-bottom: 1rem;
-}
-
-::ng-deep .mat-tab-header-pagination-chevron {
-  border-color: $yellow;
-  border-top-color: $yellow;
-  border-right-color: $yellow;
-  border-bottom-color: $yellow;
-  border-left-color: $yellow;
-}
-
-span.avatar {
-  text-align: center;
-  font-size: 2rem;
-  background-color: transparent;
-  border: 2px solid $yellow;
-  color: black;
-  font-weight: 700;
-  padding: 1rem;
-  border-radius: 50%;
-  height: 1rem;
-  width: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-::ng-deep .mat-card-header-text {
-  margin: 0 2rem !important;
-}
-
-.film-card {
-  max-width: 400px;
-  margin: auto;
-  .image-container {
-    border: 1px solid $gray;
-    padding: 1rem;
-    margin: 1rem;
-    img {
-      width: 100%;
-      margin: auto;
-    }
+#films {
+  ::ng-deep .mat-tab-label .mat-tab-label-content {
+    color: $yellow;
+    font-size: 1rem;
+    opacity: 1;
   }
-  pre {
-    font-family: sans-serif;
+  
+  ::ng-deep .mat-tab-label.mat-tab-label-active {
+    opacity: 1;
+  }
+  
+  ::ng-deep .mat-tab-header {
+    margin-bottom: 1rem;
+  }
+  
+  ::ng-deep .mat-tab-header-pagination-chevron {
+    border-color: $yellow;
+    border-top-color: $yellow;
+    border-right-color: $yellow;
+    border-bottom-color: $yellow;
+    border-left-color: $yellow;
+  }
+  
+  span.avatar {
     text-align: center;
-  }
-  
-  .additional {
-    padding: 20px;
-    overflow: auto;
-    span {
-      width: 100%;
-      float: left;
-    }
-  }
-  
-  .mat-button-toggle-group {
-    overflow: visible;
+    font-size: 2rem;
+    background-color: transparent;
+    border: 2px solid $yellow;
+    color: black;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
     display: flex;
-    mat-button-toggle {
-      width: 100%;
-    }
+    justify-content: center;
+    align-items: center;
   }
   
-  .mat-badge-content {
-    z-index: 1;
+  ::ng-deep .mat-card-header-text {
+    margin: 0 2rem !important;
   }
   
-  mat-card-actions {
-    text-align: right;
-    button {
-      margin: 1rem !important;
+  .film-card {
+    max-width: 400px;
+    margin: auto;
+    .image-container {
+      border: 1px solid $gray;
+      padding: 1rem;
+      margin: 1rem;
+      img {
+        width: 100%;
+        margin: auto;
+      }
     }
-  }
-}
-
-
-@media screen and (max-width: 650px) {
-  .mat-button-toggle-group {
-    ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-     padding: 0 0.4rem; 
+    pre {
+      font-family: sans-serif;
+      text-align: center;
     }
-  }
     
+    .additional {
+      padding: 20px;
+      overflow: auto;
+      span {
+        width: 100%;
+        float: left;
+      }
+    }
+    
+    .mat-button-toggle-group {
+      overflow: visible;
+      display: flex;
+      mat-button-toggle {
+        width: 100%;
+      }
+    }
+    
+    .mat-badge-content {
+      z-index: 1;
+    }
+    
+    mat-card-actions {
+      text-align: right;
+      button {
+        margin: 1rem !important;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 650px) {
+    .mat-button-toggle-group {
+      ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+       padding: 0 0.4rem; 
+      }
+    }
+  }
 }
