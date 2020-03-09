@@ -21,14 +21,15 @@ export class PlanetsComponent implements OnInit {
 
   constructor(private appService: AppService, private planetsService: PlanetsService, private modal: MatDialog, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.params.subscribe(params => {
       if(params['keyword']) {
         this.searchStr = params['keyword'];
         this.planetSearch();
       }
     });
-    if(!this.curPlanets) {
+    
+    if(!this.searchStr && !this.curPlanets) {
       if(Repository.planetsTotal) { this.total = Repository.planetsTotal; }
       this.getInitPlanets();
     }
