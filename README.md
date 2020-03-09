@@ -8,13 +8,21 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Used
 Angular CLI: 8.3.25
+
 Node: 12.13.1
+
 OS: win32 x64
+
 Angular: 8.2.14
+
 Angular Material: 8.2.3
+
 rxjs: 6.4.0
+
 Webpack: 4.39.2
+
 SCSS
+
 
 ## Concepts
 
